@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prompt Generator Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg-color: #f3f4f6;
+      --card-bg: #ffffff;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border-color: #d1d5db;
+      --input-bg: #f9fafb;
+      --accent-red: #dc2626;
+      --accent-red-hover: #b91c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+    }
+
+    header p {
+      margin: 0.25rem 0 0 0;
+      font-size: 0.875rem;
+      opacity: 0.9;
+    }
+
+    /* Tab Navigation */
+    .tab-nav {
+      display: flex;
+      gap: 0;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      width: 100%;
+    }
+
+    .tab-btn {
+      padding: 1rem 2rem;
+      background: var(--card-bg);
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: #f9fafb;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: var(--card-bg);
+    }
+
+    .tab-btn.active.image-tab {
+      color: var(--accent-red);
+      border-bottom-color: var(--accent-red);
+    }
+
+    .tab-btn.active.medium-tab {
+      color: #059669;
+      border-bottom-color: #059669;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: grid;
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    @media (max-width: 900px) {
+      main, .tab-content.active {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+      .tab-nav {
+        padding: 0 1rem;
+      }
+      .tab-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-main);
+      border-bottom: 2px solid var(--bg-color);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    label .hint {
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      background: var(--input-bg);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      font-family: inherit;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+      background: #fff;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .row, .row-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    button.primary-btn {
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+      margin-top: 0.5rem;
+    }
+
+    button.primary-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    button.primary-btn:active {
+      transform: scale(0.98);
+    }
+
+    button.primary-btn.red-btn {
+      background: var(--accent-red);
+    }
+
+    button.primary-btn.red-btn:hover {
+      background: var(--accent-red-hover);
+    }
+
+    button.primary-btn.green-btn {
+      background: #059669;
+    }
+
+    button.primary-btn.green-btn:hover {
+      background: #047857;
+    }
+
+    .output-container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .output-wrapper {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    textarea#result, textarea#imageResult, textarea#mediumResult {
+      flex: 1;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      background: #1e293b;
+      color: #e2e8f0;
+      border-color: #334155;
+      min-height: 400px;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .copy-btn.copied {
+      background: #059669;
+      border-color: #059669;
+      color: white;
+    }
+
+    .note {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background-color: #eff6ff;
+      border-left: 4px solid var(--primary);
+      color: #1e40af;
+      font-size: 0.85rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .note.red-note {
+      background-color: #fef2f2;
+      border-left-color: var(--accent-red);
+      color: #991b1b;
+    }
+
+    .note.green-note {
+      background-color: #ecfdf5;
+      border-left-color: #059669;
+      color: #065f46;
+    }
+
+    .section-divider {
+      margin: 1.5rem 0;
+      padding: 0.5rem 0;
+      border-top: 1px dashed var(--border-color);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, #fef2f2 0%, #fff1f2 100%);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #fecaca;
+      margin-bottom: 1.25rem;
+    }
+
+    .highlight-box label {
+      color: #991b1b;
+    }
+
+    .highlight-box input, .highlight-box textarea {
+      border-color: #fecaca;
+    }
+
+    .highlight-box input:focus, .highlight-box textarea:focus {
+      border-color: var(--accent-red);
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    }
+
+    .highlight-box-green {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #a7f3d0;
+      margin-bottom: 1.25rem;
+    }
+
+    .highlight-box-green label {
+      color: #065f46;
+    }
+
+    .highlight-box-green input, .highlight-box-green textarea {
+      border-color: #a7f3d0;
+    }
+
+    .highlight-box-green input:focus, .highlight-box-green textarea:focus {
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div style="max-width: 1400px; margin: 0 auto;">
+    <h1>Prompt Generator Tool</h1>
+    <p>Create detailed prompts for websites and social media images.</p>
+  </div>
+</header>
+
+<!-- Tab Navigation -->
+<div style="background: var(--card-bg); border-bottom: 1px solid var(--border-color);">
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('seo')">
+      <span>📝</span> SEO Website Prompt
+    </button>
+    <button class="tab-btn image-tab" onclick="switchTab('image')">
+      <span>🖼️</span> Image Generation Prompt
+    </button>
+    <button class="tab-btn medium-tab" onclick="switchTab('medium')">
+      <span>✍️</span> Medium Article Prompt
+    </button>
+  </nav>
+</div>
+
+<!-- SEO Prompt Tab Content -->
+<main class="tab-content active" id="seo-tab">
+  <!-- Input Section -->
+  <section class="card">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">📝</span> Website Details</h2>
+    
+    <div class="form-group">
+      <label for="primaryKeyword">Primary Keyword</label>
+      <input id="primaryKeyword" placeholder="e.g. Jujutsu Kaisen manga">
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="siteName">Site Name</label>
+        <input id="siteName" placeholder="e.g. JJK Manga Hub">
+      </div>
+      <div class="form-group">
+        <label for="authorName">Author Name</label>
+        <input id="authorName" placeholder="e.g. Dominic">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="canonicalUrl">Canonical Homepage URL</label>
+      <input id="canonicalUrl" placeholder="https://example.page.dev">
+    </div>
+
+    <div class="form-group" style="background: #fdf2f8; padding: 1rem; border-radius: 8px; border: 1px solid #fbcfe8;">
+      <label style="color: #9d174d;">Target External Link Info (Backlink)</label>
+      <div class="row" style="margin-bottom: 0.5rem;">
+        <input id="targetUrl" placeholder="URL: https://example.com" style="border-color: #fbcfe8;">
+        <input id="targetAnchor" placeholder="Anchor: Jujutsu Kaisen manga" style="border-color: #fbcfe8;">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="authorBio">Author Bio</label>
+      <textarea id="authorBio" placeholder="Short professional bio related to the niche..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Social Media Links (Optional)</label>
+      <div class="row" style="margin-bottom: 0.5rem;">
+        <input id="socialMedium" placeholder="Medium URL">
+        <input id="socialPinterest" placeholder="Pinterest URL">
+      </div>
+      <div class="row">
+        <input id="socialX" placeholder="X (Twitter) URL">
+        <input id="socialLinktree" placeholder="Linktree URL">
+      </div>
+    </div>
+
+    <button class="primary-btn" onclick="generatePrompt()">✨ Generate Prompt</button>
+  </section>
+
+  <!-- Output Section -->
+  <section class="card output-container">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">📋</span> Generated Output</h2>
+    <div class="output-wrapper">
+      <textarea id="result" readonly placeholder="Your generated prompt will appear here..."></textarea>
+      <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">Copy to Clipboard</button>
+    </div>
+    <div class="note">
+      <strong>Pro Tip:</strong> Paste this directly into ChatGPT, Claude, or DeepSeek to generate a complete website structure.
+    </div>
+  </section>
+</main>
+
+<!-- Image Prompt Tab Content -->
+<main class="tab-content" id="image-tab">
+  <!-- Image Input Section -->
+  <section class="card">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">🖼️</span> Image Generation Details</h2>
+    
+    <div class="highlight-box">
+      <label for="imgBrandDomain">Brand Domain <span class="hint">(displayed on image)</span></label>
+      <input id="imgBrandDomain" placeholder="e.g. jujutsukaisenmangas.me">
+    </div>
+
+    <div class="highlight-box">
+      <label for="imgHeadline">Headline Text <span class="hint">(main caption for the image)</span></label>
+      <textarea id="imgHeadline" placeholder="Enter your main headline text here. The last key word/phrase will be automatically highlighted in red." style="min-height: 80px;"></textarea>
+    </div>
+
+    <div class="section-divider">📐 Canvas Settings</div>
+
+    <div class="row-3">
+      <div class="form-group">
+        <label for="imgAspectRatio">Aspect Ratio</label>
+        <select id="imgAspectRatio">
+          <option value="1:1 square">1:1 Square</option>
+          <option value="16:9 landscape">16:9 Landscape</option>
+          <option value="9:16 portrait">9:16 Portrait (Story)</option>
+          <option value="4:5 portrait">4:5 Portrait</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgResolution">Resolution</label>
+        <select id="imgResolution">
+          <option value="1080 × 1080 px">1080 × 1080 px</option>
+          <option value="1920 × 1080 px">1920 × 1080 px</option>
+          <option value="1080 × 1920 px">1080 × 1920 px</option>
+          <option value="1080 × 1350 px">1080 × 1350 px</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgStyle">Output Style</label>
+        <select id="imgStyle">
+          <option value="clean, modern, professional social media post">Modern Professional</option>
+          <option value="bold, eye-catching social media post">Bold Eye-catching</option>
+          <option value="minimal, elegant social media post">Minimal Elegant</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-divider">🎨 Design Options</div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="imgLogoPosition">Logo Position</label>
+        <select id="imgLogoPosition">
+          <option value="TOP-LEFT">Top Left</option>
+          <option value="TOP-RIGHT">Top Right</option>
+          <option value="TOP-CENTER">Top Center</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgDomainPosition">Domain Text Position</label>
+        <select id="imgDomainPosition">
+          <option value="TOP-RIGHT">Top Right</option>
+          <option value="TOP-LEFT">Top Left</option>
+          <option value="BOTTOM-RIGHT">Bottom Right</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="imgOverlayOpacity">Text Overlay Opacity</label>
+        <select id="imgOverlayOpacity">
+          <option value="75–85%">75–85% (Standard)</option>
+          <option value="60–70%">60–70% (Light)</option>
+          <option value="85–95%">85–95% (Dark)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgOverlayHeight">Overlay Height</label>
+        <select id="imgOverlayHeight">
+          <option value="35%">35% (Standard)</option>
+          <option value="25%">25% (Compact)</option>
+          <option value="45%">45% (Extended)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-divider">🎯 Accent & Colors</div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="imgAccentColor">Highlight Accent Color</label>
+        <select id="imgAccentColor">
+          <option value="RED (#D62828 or #FF2B2B)">Red (Default)</option>
+          <option value="ORANGE (#F97316)">Orange</option>
+          <option value="BLUE (#2563EB)">Blue</option>
+          <option value="PURPLE (#7C3AED)">Purple</option>
+          <option value="PINK (#EC4899)">Pink</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgFontStyle">Font Style</label>
+        <select id="imgFontStyle">
+          <option value="modern geometric sans-serif (Poppins / Montserrat style)">Poppins/Montserrat</option>
+          <option value="clean sans-serif (Inter / Roboto style)">Inter/Roboto</option>
+          <option value="bold display sans-serif (Bebas / Oswald style)">Bebas/Oswald</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-divider">🌐 Background Options</div>
+
+    <div class="form-group">
+      <label for="imgMapOverlay">World Map Overlay</label>
+      <select id="imgMapOverlay">
+        <option value="yes">Yes - Add subtle world map silhouette</option>
+        <option value="no">No - Clean background only</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="imgMapOpacity">Map Opacity <span class="hint">(if enabled)</span></label>
+        <select id="imgMapOpacity">
+          <option value="8–12%">8–12% (Subtle)</option>
+          <option value="5–8%">5–8% (Very Light)</option>
+          <option value="12–18%">12–18% (More Visible)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgSubjectPosition">Subject Position</label>
+        <select id="imgSubjectPosition">
+          <option value="slightly ABOVE the vertical center">Above Center</option>
+          <option value="centered vertically">Center</option>
+          <option value="in the upper third">Upper Third</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-divider">📱 Social Media Icons</div>
+
+    <div class="form-group">
+      <label for="imgSocialIcons">Social Media Icons to Display</label>
+      <div class="row" style="margin-top: 0.5rem;">
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 400;">
+          <input type="checkbox" id="iconFacebook" checked style="width: auto;"> Facebook
+        </label>
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 400;">
+          <input type="checkbox" id="iconInstagram" checked style="width: auto;"> Instagram
+        </label>
+      </div>
+      <div class="row" style="margin-top: 0.5rem;">
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 400;">
+          <input type="checkbox" id="iconLinkedIn" checked style="width: auto;"> LinkedIn
+        </label>
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 400;">
+          <input type="checkbox" id="iconX" checked style="width: auto;"> X (Twitter)
+        </label>
+      </div>
+    </div>
+
+    <button class="primary-btn red-btn" onclick="generateImagePrompt()">🖼️ Generate Image Prompt</button>
+  </section>
+
+  <!-- Image Output Section -->
+  <section class="card output-container">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">📋</span> Generated Image Prompt</h2>
+    <div class="output-wrapper">
+      <textarea id="imageResult" readonly placeholder="Your generated image prompt will appear here..."></textarea>
+      <button class="copy-btn" id="copyImageBtn" onclick="copyImageToClipboard()">Copy to Clipboard</button>
+    </div>
+    <div class="note red-note">
+      <strong>Usage:</strong> Upload your background image and logo in the AI interface, then paste this prompt. The AI will recreate the design structure with your branding.
+    </div>
+  </section>
+</main>
+
+<!-- Medium Prompt Tab Content -->
+<main class="tab-content" id="medium-tab">
+  <!-- Medium Input Section -->
+  <section class="card">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">✍️</span> Medium Article Details</h2>
+    
+    <div class="highlight-box-green">
+      <label for="mediumTitle">Main Post Title <span class="hint">(H1 headline)</span></label>
+      <input id="mediumTitle" placeholder="e.g. Understanding the Future of Remote Work in 2026">
+    </div>
+
+    <div class="highlight-box-green">
+      <label for="mediumKeyword">Main Keyword <span class="hint">(used only once, naturally)</span></label>
+      <input id="mediumKeyword" placeholder="e.g. remote work trends">
+    </div>
+
+    <div class="section-divider">📚 Reference Information</div>
+
+    <div class="form-group">
+      <label for="mediumReference">Reference Information <span class="hint">(source material the article will be based on)</span></label>
+      <textarea id="mediumReference" placeholder="Paste your reference information, research notes, key points, statistics, or source material here. The AI will expand on this information while maintaining accuracy and not inventing facts." style="min-height: 200px;"></textarea>
+    </div>
+
+    <div class="section-divider">⚙️ Content Preferences</div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="mediumTone">Writing Tone</label>
+        <select id="mediumTone">
+          <option value="conversational and informative">Conversational & Informative</option>
+          <option value="professional and authoritative">Professional & Authoritative</option>
+          <option value="friendly and approachable">Friendly & Approachable</option>
+          <option value="educational and explanatory">Educational & Explanatory</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="mediumLength">Target Length</label>
+        <select id="mediumLength">
+          <option value="medium (800-1200 words)">Medium (800-1200 words)</option>
+          <option value="short (500-800 words)">Short (500-800 words)</option>
+          <option value="long (1200-1800 words)">Long (1200-1800 words)</option>
+          <option value="comprehensive (1800+ words)">Comprehensive (1800+ words)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="mediumAudience">Target Audience</label>
+        <select id="mediumAudience">
+          <option value="general readers interested in the topic">General Readers</option>
+          <option value="beginners learning about this subject">Beginners</option>
+          <option value="intermediate practitioners seeking deeper knowledge">Intermediate</option>
+          <option value="professionals and experts in the field">Professionals/Experts</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="mediumFocus">Content Focus</label>
+        <select id="mediumFocus">
+          <option value="balanced explanation with practical insights">Balanced & Practical</option>
+          <option value="conceptual understanding and theory">Conceptual/Theory</option>
+          <option value="practical how-to guidance">How-To/Practical</option>
+          <option value="analysis and opinion with evidence">Analysis & Opinion</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="primary-btn green-btn" onclick="generateMediumPrompt()">✍️ Generate Medium Prompt</button>
+  </section>
+
+  <!-- Medium Output Section -->
+  <section class="card output-container">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">📋</span> Generated Medium Prompt</h2>
+    <div class="output-wrapper">
+      <textarea id="mediumResult" readonly placeholder="Your generated Medium article prompt will appear here..."></textarea>
+      <button class="copy-btn" id="copyMediumBtn" onclick="copyMediumToClipboard()">Copy to Clipboard</button>
+    </div>
+    <div class="note green-note">
+      <strong>Helpful Content:</strong> This prompt follows Google's Helpful Content Framework — writing for humans first, with clear explanations and no keyword stuffing.
+    </div>
+  </section>
+</main>
+
+<footer>
+  Prompt Generator Tool | v2.0
+</footer>
+
+<script>
+// Tab switching function
+function switchTab(tab) {
+  // Update tab buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  
+  if (tab === 'seo') {
+    document.querySelector('.tab-btn:first-child').classList.add('active');
+    document.getElementById('seo-tab').classList.add('active');
+  } else if (tab === 'image') {
+    document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+    document.getElementById('image-tab').classList.add('active');
+  } else if (tab === 'medium') {
+    document.querySelector('.tab-btn:nth-child(3)').classList.add('active');
+    document.getElementById('medium-tab').classList.add('active');
+  }
+}
+
+function generatePrompt() {
+  const pk = document.getElementById("primaryKeyword").value || "[Primary Keyword]";
+  const sn = document.getElementById("siteName").value || "[Site Name]";
+  const cu = document.getElementById("canonicalUrl").value || "[Canonical URL]";
+  const tu = document.getElementById("targetUrl").value || "[Target URL]";
+  const ta = document.getElementById("targetAnchor").value || "[Target Anchor]";
+  const an = document.getElementById("authorName").value || "[Author Name]";
+  const ab = document.getElementById("authorBio").value || "[Author Bio]";
+
+  const sMedium = document.getElementById("socialMedium").value;
+  const sPinterest = document.getElementById("socialPinterest").value;
+  const sX = document.getElementById("socialX").value;
+  const sLinktree = document.getElementById("socialLinktree").value;
+
+  let socialString = "Text links to Medium, Pinterest, X, and Linktree.";
+  if (sMedium || sPinterest || sX || sLinktree) {
+    socialString = "Include the following social links:\n";
+    if (sMedium) socialString += `- Medium: ${sMedium}\n`;
+    if (sPinterest) socialString += `- Pinterest: ${sPinterest}\n`;
+    if (sX) socialString += `- X (Twitter): ${sX}\n`;
+    if (sLinktree) socialString += `- Linktree: ${sLinktree}\n`;
+  }
+
+  const prompt = `
+ROLE
+You are a professional web developer and SEO specialist.
+
+Your task is to generate a fully static, production-ready HTML blog website with a landing-page style homepage using clean semantic HTML5 and minimal CSS.
+
+SITE DATA
+Primary Keyword: ${pk}
+Site Name: ${sn}
+Canonical Homepage URL: ${cu}
+Target External URL: ${tu}
+Target Anchor Text: ${ta}
+Author Name: ${an}
+Author Bio: ${ab}
+
+SITE STRUCTURE
+Create the following pages as separate HTML files:
+- Home (index.html)
+- About Us
+- Privacy Policy
+- Contact Us
+- Author Page
+
+Each page must include:
+- Header with navigation
+- Main content
+- Author bio section
+- Footer
+
+DESIGN RULES
+- Clean, modern, professional blog layout
+- Landing-page style homepage
+- No sticky elements
+- No blue or purple colors
+- Use warm or neutral tones
+- Mobile responsive (CSS only)
+- Social icons only in header
+
+HOMEPAGE SEO REQUIREMENTS
+- Minimum 1000 words
+- Use "${pk}" once in H1 and once in one H2 only
+- Do not repeat exact keyword in other headings
+- Natural keyword variations in body
+- Proper heading hierarchy
+- Include title tag, meta description (155–160 chars), canonical, viewport, charset
+
+HOMEPAGE CONTENT
+- What the topic is
+- Why it is popular
+- How new and returning readers can start
+- High-level overview of major arcs
+- Reading guide and navigation tips
+- Do NOT include anime release news
+
+INTERNAL ARTICLE PAGE
+Create one internal blog article related to the primary keyword (not exact match URL).
+Link it naturally from the homepage.
+
+LINKING
+On the homepage, add one contextual link to:
+${tu}
+Using anchor text:
+${ta}
+Do not repeat this anchor elsewhere.
+
+AUTHOR BIO
+Add author bio at the end of every page with:
+Name: ${an}
+Bio: ${ab}
+${socialString}
+
+FAQ + SCHEMA
+- Minimum 5 FAQs
+- HTML dropdown format
+- Add valid FAQPage JSON-LD schema
+
+TECHNICAL FILES
+Generate:
+- robots.txt
+- sitemap.xml using canonical base
+
+CODE QUALITY
+- Semantic HTML5
+- Clean indentation
+- Minimal CSS
+- No external libraries
+- No placeholder text
+`;
+
+  document.getElementById("result").value = prompt.trim();
+}
+
+function copyToClipboard() {
+  const resultTextArea = document.getElementById("result");
+  if (!resultTextArea.value) return;
+
+  resultTextArea.select();
+  resultTextArea.setSelectionRange(0, 99999); // For mobile devices
+  
+  navigator.clipboard.writeText(resultTextArea.value).then(function() {
+    const btn = document.getElementById("copyBtn");
+    const originalText = btn.innerText;
+    btn.innerText = "Copied!";
+    btn.classList.add("copied");
+    
+    setTimeout(() => {
+      btn.innerText = originalText;
+      btn.classList.remove("copied");
+    }, 2000);
+  }, function(err) {
+    console.error('Async: Could not copy text: ', err);
+  });
+}
+
+// Image Prompt Generator Function
+function generateImagePrompt() {
+  const brandDomain = document.getElementById("imgBrandDomain").value || "[your-domain.com]";
+  const headline = document.getElementById("imgHeadline").value || "[Your headline text here]";
+  const aspectRatio = document.getElementById("imgAspectRatio").value;
+  const resolution = document.getElementById("imgResolution").value;
+  const outputStyle = document.getElementById("imgStyle").value;
+  const logoPosition = document.getElementById("imgLogoPosition").value;
+  const domainPosition = document.getElementById("imgDomainPosition").value;
+  const overlayOpacity = document.getElementById("imgOverlayOpacity").value;
+  const overlayHeight = document.getElementById("imgOverlayHeight").value;
+  const accentColor = document.getElementById("imgAccentColor").value;
+  const fontStyle = document.getElementById("imgFontStyle").value;
+  const mapOverlay = document.getElementById("imgMapOverlay").value;
+  const mapOpacity = document.getElementById("imgMapOpacity").value;
+  const subjectPosition = document.getElementById("imgSubjectPosition").value;
+  
+  // Get selected social icons
+  const socialIcons = [];
+  if (document.getElementById("iconFacebook").checked) socialIcons.push("Facebook");
+  if (document.getElementById("iconInstagram").checked) socialIcons.push("Instagram");
+  if (document.getElementById("iconLinkedIn").checked) socialIcons.push("LinkedIn");
+  if (document.getElementById("iconX").checked) socialIcons.push("X");
+  const socialIconsText = socialIcons.length > 0 ? socialIcons.join(", ") : "None";
+
+  // Build world map section based on selection
+  let worldMapSection = "";
+  if (mapOverlay === "yes") {
+    worldMapSection = `
+- Add a subtle world map silhouette behind the subjects:
+  • Flat design
+  • Monochrome
+  • Opacity: ${mapOpacity}
+  • Very subtle, non-distracting`;
+  }
+
+  const imagePrompt = `TASK:
+Recreate the exact DESIGN, LAYOUT, and VISUAL STRUCTURE of the reference social media image.
+Do NOT copy any existing brand identity from the reference.
+Only replicate the composition, hierarchy, and styling.
+
+The background image and logo will be uploaded directly in the AI interface.
+
+BRANDING:
+- Brand domain to display: ${brandDomain}
+- Use this domain text for all visible branding.
+- No other brand names, logos, or watermarks are allowed.
+
+CANVAS:
+- Aspect ratio: ${aspectRatio}
+- Resolution: ${resolution}
+- Output style: ${outputStyle}
+
+BACKGROUND & IMAGE TREATMENT:
+- Use the uploaded background image as the main visual.
+- Subjects must be positioned ${subjectPosition}.
+- Maintain realistic lighting and natural skin tones.${worldMapSection}
+
+TOP SECTION (BRANDING):
+- Place the uploaded logo in the ${logoPosition} corner.
+  • Padding from edges: approx 6–8%
+  • Balanced size, visible but not dominant
+- Place the text "${brandDomain}" in the ${domainPosition} corner.
+  • Color: white
+  • Font: clean modern sans-serif
+  • Weight: semi-bold
+
+LOWER TEXT CONTAINER:
+- Create a wide rounded rectangle across the LOWER THIRD of the image.
+- Width: nearly full width with safe margins.
+- Height: approximately ${overlayHeight} of the canvas.
+- Background: black with transparency (${overlayOpacity} opacity).
+- Corner radius: soft rounded edges.
+- Add a subtle drop shadow for depth.
+
+HEADLINE TEXT:
+- Insert the following main caption text:
+"${headline}"
+- Font family: ${fontStyle}.
+- Font weight: extra bold.
+- Text color: white.
+- Line spacing: tight but readable.
+- Allow multi-line wrapping if needed.
+
+HIGHLIGHT ACCENT:
+- Automatically highlight the FINAL KEY WORD or PHRASE of the headline.
+- Use a rounded pill shape behind the highlighted text.
+- Pill background color: ${accentColor}
+- Highlighted text color: white.
+- Padding: balanced and modern.
+
+BOTTOM DETAILS:
+- Add small white social media icons (${socialIconsText}).
+- Position: centered near the bottom of the text container.
+- Icons must be minimal and evenly spaced.
+
+COLOR RULES (STRICT):
+- Primary text: white
+- Accent / highlight: ${accentColor.split(" ")[0].toLowerCase()}
+- Overlay container: black (transparent)
+- No yellow
+- No green
+- No extra accent colors
+
+QUALITY & CONSTRAINTS:
+- Design must remain sharp and readable on mobile.
+- No heavy filters, illustration effects, or stylization.
+- No additional text beyond the headline and domain.
+- No watermarks.
+- Final output must feel premium and editorial.
+
+NEGATIVE INSTRUCTIONS:
+- Do NOT reference any real-world brand from the sample image.
+- Do NOT add extra slogans, captions, or UI elements.
+- Do NOT change layout hierarchy or proportions.`;
+
+  document.getElementById("imageResult").value = imagePrompt.trim();
+}
+
+function copyImageToClipboard() {
+  const resultTextArea = document.getElementById("imageResult");
+  if (!resultTextArea.value) return;
+
+  resultTextArea.select();
+  resultTextArea.setSelectionRange(0, 99999);
+  
+  navigator.clipboard.writeText(resultTextArea.value).then(function() {
+    const btn = document.getElementById("copyImageBtn");
+    const originalText = btn.innerText;
+    btn.innerText = "Copied!";
+    btn.classList.add("copied");
+    
+    setTimeout(() => {
+      btn.innerText = originalText;
+      btn.classList.remove("copied");
+    }, 2000);
+  }, function(err) {
+    console.error('Async: Could not copy text: ', err);
+  });
+}
+
+// Medium Prompt Generator Function
+function generateMediumPrompt() {
+  const mainTitle = document.getElementById("mediumTitle").value || "[Your Article Title]";
+  const mainKeyword = document.getElementById("mediumKeyword").value || "[Main Keyword]";
+  const referenceInfo = document.getElementById("mediumReference").value || "[Reference information not provided]";
+  const tone = document.getElementById("mediumTone").value;
+  const length = document.getElementById("mediumLength").value;
+  const audience = document.getElementById("mediumAudience").value;
+  const focus = document.getElementById("mediumFocus").value;
+
+  const mediumPrompt = `ROLE:
+You are an expert Medium content writer trained in Google's Helpful Content Framework.
+Your job is to write content for real users first, not for search engines.
+
+OBJECTIVE:
+Generate a high-quality Medium article using ONLY the provided inputs.
+The article must be original, helpful, easy to read, and structured correctly.
+
+INPUT PARAMETERS:
+1. MAIN_POST_TITLE: ${mainTitle}
+2. MAIN_KEYWORD: ${mainKeyword}
+3. REFERENCE_INFORMATION: ${referenceInfo}
+
+ADDITIONAL PREFERENCES:
+- Writing Tone: ${tone}
+- Target Length: ${length}
+- Target Audience: ${audience}
+- Content Focus: ${focus}
+
+CONTENT RULES (STRICT — NO EXCEPTIONS):
+
+STRUCTURE & FORMATTING:
+- Use proper HTML-style headings:
+  • One H1 (for the main title only)
+  • Multiple H2 sections
+  • H3 and H4 only when logically required
+- Every paragraph MUST be under a heading.
+- Do NOT write large paragraphs.
+- Each paragraph should be concise, focused, and readable.
+- Do NOT use bullet points, numbered lists, or separators.
+
+KEYWORD RULES:
+- Do NOT use "${mainKeyword}" in the introduction paragraph.
+- Use "${mainKeyword}" ONLY ONCE.
+- The keyword must appear naturally under a clearly relevant H2 heading.
+- Do NOT repeat or stuff the keyword anywhere else.
+
+HELPFUL CONTENT FRAMEWORK (MANDATORY):
+Follow these principles strictly:
+- Write for humans, not algorithms.
+- Explain concepts clearly as if the reader is learning for the first time.
+- Add context, reasoning, and clarity — not filler.
+- Avoid generic statements, fluff, or SEO-style padding.
+- Every section must answer a real user question or remove confusion.
+- Do not exaggerate, speculate, or add unverified claims.
+- If something is uncertain, explain it clearly instead of guessing.
+
+CONTENT QUALITY RULES:
+- Use natural, conversational, and informative language.
+- Avoid robotic tone or promotional wording.
+- Do not repeat the same idea in different words.
+- Do not introduce information that is not supported by the reference input.
+- Expand the reference information logically, but do not invent facts.
+
+INTRODUCTION RULES:
+- The introduction must explain the topic contextually.
+- It must NOT contain the main keyword.
+- Keep it short, clear, and curiosity-driven.
+
+SECTION RULES:
+- Each H2 should cover ONE clear subtopic.
+- H3/H4 should only be used to clarify or expand a complex point.
+- No section should feel bloated or stretched.
+
+ENDING RULES:
+- The conclusion should summarize understanding, not repeat headings.
+- Do not add calls-to-action, promotions, or external links.
+- End naturally and informatively.
+
+OUTPUT REQUIREMENTS:
+- Medium-ready formatting.
+- Clean heading hierarchy.
+- No bullet points.
+- No long paragraphs.
+- Fully compliant with Helpful Content principles.`;
+
+  document.getElementById("mediumResult").value = mediumPrompt.trim();
+}
+
+function copyMediumToClipboard() {
+  const resultTextArea = document.getElementById("mediumResult");
+  if (!resultTextArea.value) return;
+
+  resultTextArea.select();
+  resultTextArea.setSelectionRange(0, 99999);
+  
+  navigator.clipboard.writeText(resultTextArea.value).then(function() {
+    const btn = document.getElementById("copyMediumBtn");
+    const originalText = btn.innerText;
+    btn.innerText = "Copied!";
+    btn.classList.add("copied");
+    
+    setTimeout(() => {
+      btn.innerText = originalText;
+      btn.classList.remove("copied");
+    }, 2000);
+  }, function(err) {
+    console.error('Async: Could not copy text: ', err);
+  });
+}
+</script>
+
+</body>
+</html>
