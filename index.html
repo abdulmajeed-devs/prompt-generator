@@ -22,6 +22,245 @@
       --accent-red-hover: #b91c1c;
     }
 
+    /* Language Dropdown Styles */
+    .language-dropdown {
+      position: relative;
+    }
+
+    .language-search-container {
+      position: relative;
+    }
+
+    .language-search {
+      width: 100%;
+      padding: 0.75rem;
+      padding-right: 2.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: var(--input-bg);
+    }
+
+    .language-dropdown-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 100;
+      display: none;
+    }
+
+    .language-dropdown-list.show {
+      display: block;
+    }
+
+    .language-option {
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .language-option:hover {
+      background: var(--bg-color);
+    }
+
+    .language-option.selected {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Country Checkbox Grid */
+    .country-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.5rem;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--input-bg);
+    }
+
+    .country-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      padding: 0.25rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .country-checkbox:hover {
+      background: rgba(79, 70, 229, 0.1);
+    }
+
+    .country-checkbox input {
+      width: auto;
+      margin: 0;
+    }
+
+    .country-checkbox.language-match {
+      background: rgba(79, 70, 229, 0.15);
+      border: 1px solid var(--primary);
+      order: -1;
+    }
+
+    .country-checkbox.language-match::after {
+      content: '✓';
+      font-size: 0.7rem;
+      color: var(--primary);
+      margin-left: auto;
+    }
+
+    .country-search {
+      margin-bottom: 0.5rem;
+    }
+
+    .country-filter-info {
+      font-size: 0.8rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      background: rgba(79, 70, 229, 0.1);
+      border-radius: 6px;
+      display: none;
+    }
+
+    .country-filter-info.show {
+      display: block;
+    }
+
+    .country-filter-info .clear-filter {
+      color: var(--accent-red);
+      cursor: pointer;
+      margin-left: 0.5rem;
+      text-decoration: underline;
+    }
+
+    /* Theme Selection Cards */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .theme-card {
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .theme-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .theme-card.selected {
+      border-color: var(--primary);
+      background: rgba(79, 70, 229, 0.05);
+    }
+
+    .theme-card .theme-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .theme-card .theme-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .theme-card .theme-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Optional Toggle */
+    .optional-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--input-bg);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 24px;
+      background: var(--border-color);
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .toggle-switch.active {
+      background: var(--primary);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .toggle-switch.active::after {
+      transform: translateX(24px);
+    }
+
+    .collapsible-section {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease;
+    }
+
+    .collapsible-section.expanded {
+      max-height: 500px;
+    }
+
+    /* Info Box */
+    .info-box {
+      background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+      border: 1px solid #93c5fd;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      color: #1e40af;
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-box code {
+      background: rgba(0,0,0,0.1);
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -420,9 +659,47 @@
   <section class="card">
     <h2><span style="font-size: 1.2em; margin-right: 8px;">📝</span> Website Details</h2>
     
+    <!-- Website Theme Selection -->
     <div class="form-group">
-      <label for="primaryKeyword">Primary Keyword</label>
-      <input id="primaryKeyword" placeholder="e.g. Jujutsu Kaisen manga">
+      <label>Website Theme <span class="hint">(select website type)</span></label>
+      <div class="theme-grid">
+        <div class="theme-card selected" data-theme="blog" onclick="selectTheme('blog')">
+          <div class="theme-icon">📝</div>
+          <div class="theme-name">Blog/Content</div>
+          <div class="theme-desc">Articles, news, tutorials</div>
+        </div>
+        <div class="theme-card" data-theme="business" onclick="selectTheme('business')">
+          <div class="theme-icon">🏢</div>
+          <div class="theme-name">Business</div>
+          <div class="theme-desc">Corporate, company sites</div>
+        </div>
+        <div class="theme-card" data-theme="service" onclick="selectTheme('service')">
+          <div class="theme-icon">🛠️</div>
+          <div class="theme-name">Service</div>
+          <div class="theme-desc">Service providers, agencies</div>
+        </div>
+        <div class="theme-card" data-theme="ecommerce" onclick="selectTheme('ecommerce')">
+          <div class="theme-icon">🛒</div>
+          <div class="theme-name">E-Commerce</div>
+          <div class="theme-desc">Product showcase, shop</div>
+        </div>
+        <div class="theme-card" data-theme="portfolio" onclick="selectTheme('portfolio')">
+          <div class="theme-icon">💼</div>
+          <div class="theme-name">Portfolio</div>
+          <div class="theme-desc">Personal, creative work</div>
+        </div>
+        <div class="theme-card" data-theme="landing" onclick="selectTheme('landing')">
+          <div class="theme-icon">🚀</div>
+          <div class="theme-name">Landing Page</div>
+          <div class="theme-desc">Single product, SaaS</div>
+        </div>
+      </div>
+      <input type="hidden" id="selectedTheme" value="blog">
+    </div>
+
+    <div class="form-group">
+      <label for="primaryKeyword">Primary Keyword <span class="hint">(determines business category)</span></label>
+      <input id="primaryKeyword" placeholder="e.g. Jujutsu Kaisen manga, Digital Marketing Agency, Law Firm Services">
     </div>
 
     <div class="row">
@@ -441,6 +718,41 @@
       <input id="canonicalUrl" placeholder="https://example.page.dev">
     </div>
 
+    <!-- Language Selection with Search -->
+    <div class="section-divider">🌍 Language & Region Settings</div>
+    
+    <div class="row">
+      <div class="form-group">
+        <label for="languageSearch">Website Language</label>
+        <div class="language-dropdown">
+          <div class="language-search-container">
+            <input type="text" id="languageSearch" class="language-search" placeholder="Search language..." onclick="toggleLanguageDropdown()" oninput="filterLanguages()">
+            <input type="hidden" id="selectedLanguage" value="en">
+          </div>
+          <div class="language-dropdown-list" id="languageList">
+            <!-- Languages populated by JS -->
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="languageCode">Language Code</label>
+        <input id="languageCode" value="en" readonly placeholder="Auto-filled">
+      </div>
+    </div>
+
+    <!-- Multi-Country Targeting -->
+    <div class="form-group">
+      <label>Target Countries <span class="hint">(select multiple for geo-targeting)</span></label>
+      <input type="text" id="countrySearch" class="country-search" placeholder="Search countries..." oninput="filterCountries()">
+      <div class="country-filter-info" id="countryFilterInfo">
+        <span id="filterInfoText">Showing countries where the selected language is spoken</span>
+        <span class="clear-filter" onclick="clearLanguageFilter()">Show all</span>
+      </div>
+      <div class="country-grid" id="countryGrid">
+        <!-- Countries populated by JS -->
+      </div>
+    </div>
+
     <div class="form-group" style="background: #fdf2f8; padding: 1rem; border-radius: 8px; border: 1px solid #fbcfe8;">
       <label style="color: #9d174d;">Target External Link Info (Backlink)</label>
       <div class="row" style="margin-bottom: 0.5rem;">
@@ -449,21 +761,93 @@
       </div>
     </div>
 
+    <!-- Author Bio Section -->
+    <div class="section-divider">👤 Author Information</div>
+    
     <div class="form-group">
       <label for="authorBio">Author Bio</label>
       <textarea id="authorBio" placeholder="Short professional bio related to the niche..."></textarea>
     </div>
 
+    <div class="row">
+      <div class="form-group">
+        <label for="authorTitle">Author Title/Role</label>
+        <input id="authorTitle" placeholder="e.g. Senior Content Writer, CEO">
+      </div>
+      <div class="form-group">
+        <label for="authorExpertise">Area of Expertise</label>
+        <input id="authorExpertise" placeholder="e.g. Manga Reviews, Digital Marketing">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="authorExperience">Years of Experience</label>
+        <input id="authorExperience" type="number" placeholder="e.g. 5">
+      </div>
+      <div class="form-group">
+        <label for="authorCredentials">Credentials/Certifications</label>
+        <input id="authorCredentials" placeholder="e.g. Google Analytics Certified">
+      </div>
+    </div>
+
+    <!-- Optional Social Media Section -->
+    <div class="section-divider">📱 Social Media (Optional)</div>
+    
+    <div class="optional-toggle">
+      <div class="toggle-switch" id="socialToggle" onclick="toggleSocialMedia()"></div>
+      <span>Include social media links in website</span>
+    </div>
+
+    <div class="collapsible-section" id="socialMediaSection">
+      <div class="form-group">
+        <label>Social Media Links</label>
+        <div class="row" style="margin-bottom: 0.5rem;">
+          <input id="socialMedium" placeholder="Medium URL">
+          <input id="socialPinterest" placeholder="Pinterest URL">
+        </div>
+        <div class="row" style="margin-bottom: 0.5rem;">
+          <input id="socialX" placeholder="X (Twitter) URL">
+          <input id="socialLinktree" placeholder="Linktree URL">
+        </div>
+        <div class="row">
+          <input id="socialLinkedin" placeholder="LinkedIn URL">
+          <input id="socialFacebook" placeholder="Facebook URL">
+        </div>
+      </div>
+    </div>
+
+    <!-- Blog/Category Page Settings -->
+    <div class="section-divider">📁 Blog & Category Page Settings</div>
+
+    <div class="info-box">
+      <strong>📌 Multi-Page Anchor System:</strong>
+      Create a folder (e.g., <code>/blog/</code>) where you can add HTML files. 
+      The system will auto-fetch and display new blog posts on the category page.
+      Each HTML file in the folder becomes a blog post automatically.
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="blogFolderName">Blog Folder Name</label>
+        <input id="blogFolderName" placeholder="e.g. blog, articles, posts" value="blog">
+      </div>
+      <div class="form-group">
+        <label for="postsPerPage">Posts Per Page</label>
+        <select id="postsPerPage">
+          <option value="6">6 posts</option>
+          <option value="9" selected>9 posts</option>
+          <option value="12">12 posts</option>
+          <option value="15">15 posts</option>
+        </select>
+      </div>
+    </div>
+
     <div class="form-group">
-      <label>Social Media Links (Optional)</label>
-      <div class="row" style="margin-bottom: 0.5rem;">
-        <input id="socialMedium" placeholder="Medium URL">
-        <input id="socialPinterest" placeholder="Pinterest URL">
-      </div>
-      <div class="row">
-        <input id="socialX" placeholder="X (Twitter) URL">
-        <input id="socialLinktree" placeholder="Linktree URL">
-      </div>
+      <label>
+        <input type="checkbox" id="includeCategoryPage" checked style="width: auto; margin-right: 0.5rem;">
+        Include Category/Blog Listing Page
+      </label>
     </div>
 
     <button class="primary-btn" onclick="generatePrompt()">✨ Generate Prompt</button>
@@ -743,10 +1127,368 @@
 </main>
 
 <footer>
-  Prompt Generator Tool | v2.0
+  Prompt Generator Tool | v3.0 - Advanced SEO & Multi-Region Support
 </footer>
 
 <script>
+// Language Data
+const languages = [
+  { code: 'en', name: 'English' },
+  { code: 'es', name: 'Spanish (Español)' },
+  { code: 'fr', name: 'French (Français)' },
+  { code: 'de', name: 'German (Deutsch)' },
+  { code: 'it', name: 'Italian (Italiano)' },
+  { code: 'pt', name: 'Portuguese (Português)' },
+  { code: 'ru', name: 'Russian (Русский)' },
+  { code: 'ja', name: 'Japanese (日本語)' },
+  { code: 'ko', name: 'Korean (한국어)' },
+  { code: 'zh', name: 'Chinese (中文)' },
+  { code: 'ar', name: 'Arabic (العربية)' },
+  { code: 'hi', name: 'Hindi (हिन्दी)' },
+  { code: 'bn', name: 'Bengali (বাংলা)' },
+  { code: 'ur', name: 'Urdu (اردو)' },
+  { code: 'tr', name: 'Turkish (Türkçe)' },
+  { code: 'vi', name: 'Vietnamese (Tiếng Việt)' },
+  { code: 'th', name: 'Thai (ไทย)' },
+  { code: 'nl', name: 'Dutch (Nederlands)' },
+  { code: 'pl', name: 'Polish (Polski)' },
+  { code: 'sv', name: 'Swedish (Svenska)' },
+  { code: 'da', name: 'Danish (Dansk)' },
+  { code: 'no', name: 'Norwegian (Norsk)' },
+  { code: 'fi', name: 'Finnish (Suomi)' },
+  { code: 'el', name: 'Greek (Ελληνικά)' },
+  { code: 'he', name: 'Hebrew (עברית)' },
+  { code: 'id', name: 'Indonesian (Bahasa Indonesia)' },
+  { code: 'ms', name: 'Malay (Bahasa Melayu)' },
+  { code: 'tl', name: 'Filipino (Tagalog)' },
+  { code: 'cs', name: 'Czech (Čeština)' },
+  { code: 'ro', name: 'Romanian (Română)' },
+  { code: 'hu', name: 'Hungarian (Magyar)' },
+  { code: 'uk', name: 'Ukrainian (Українська)' }
+];
+
+// Country Data with SEO info and language associations
+const countries = [
+  { code: 'US', name: 'United States', region: 'North America', languages: ['en'] },
+  { code: 'GB', name: 'United Kingdom', region: 'Europe', languages: ['en'] },
+  { code: 'CA', name: 'Canada', region: 'North America', languages: ['en', 'fr'] },
+  { code: 'AU', name: 'Australia', region: 'Oceania', languages: ['en'] },
+  { code: 'DE', name: 'Germany', region: 'Europe', languages: ['de'] },
+  { code: 'FR', name: 'France', region: 'Europe', languages: ['fr'] },
+  { code: 'ES', name: 'Spain', region: 'Europe', languages: ['es'] },
+  { code: 'IT', name: 'Italy', region: 'Europe', languages: ['it'] },
+  { code: 'NL', name: 'Netherlands', region: 'Europe', languages: ['nl'] },
+  { code: 'BE', name: 'Belgium', region: 'Europe', languages: ['nl', 'fr', 'de'] },
+  { code: 'CH', name: 'Switzerland', region: 'Europe', languages: ['de', 'fr', 'it'] },
+  { code: 'AT', name: 'Austria', region: 'Europe', languages: ['de'] },
+  { code: 'SE', name: 'Sweden', region: 'Europe', languages: ['sv'] },
+  { code: 'NO', name: 'Norway', region: 'Europe', languages: ['no'] },
+  { code: 'DK', name: 'Denmark', region: 'Europe', languages: ['da'] },
+  { code: 'FI', name: 'Finland', region: 'Europe', languages: ['fi', 'sv'] },
+  { code: 'PL', name: 'Poland', region: 'Europe', languages: ['pl'] },
+  { code: 'PT', name: 'Portugal', region: 'Europe', languages: ['pt'] },
+  { code: 'IE', name: 'Ireland', region: 'Europe', languages: ['en'] },
+  { code: 'NZ', name: 'New Zealand', region: 'Oceania', languages: ['en'] },
+  { code: 'JP', name: 'Japan', region: 'Asia', languages: ['ja'] },
+  { code: 'KR', name: 'South Korea', region: 'Asia', languages: ['ko'] },
+  { code: 'CN', name: 'China', region: 'Asia', languages: ['zh'] },
+  { code: 'IN', name: 'India', region: 'Asia', languages: ['hi', 'en', 'bn'] },
+  { code: 'SG', name: 'Singapore', region: 'Asia', languages: ['en', 'zh', 'ms'] },
+  { code: 'MY', name: 'Malaysia', region: 'Asia', languages: ['ms', 'en', 'zh'] },
+  { code: 'TH', name: 'Thailand', region: 'Asia', languages: ['th'] },
+  { code: 'PH', name: 'Philippines', region: 'Asia', languages: ['tl', 'en'] },
+  { code: 'ID', name: 'Indonesia', region: 'Asia', languages: ['id'] },
+  { code: 'VN', name: 'Vietnam', region: 'Asia', languages: ['vi'] },
+  { code: 'BR', name: 'Brazil', region: 'South America', languages: ['pt'] },
+  { code: 'MX', name: 'Mexico', region: 'North America', languages: ['es'] },
+  { code: 'AR', name: 'Argentina', region: 'South America', languages: ['es'] },
+  { code: 'CL', name: 'Chile', region: 'South America', languages: ['es'] },
+  { code: 'CO', name: 'Colombia', region: 'South America', languages: ['es'] },
+  { code: 'PE', name: 'Peru', region: 'South America', languages: ['es'] },
+  { code: 'VE', name: 'Venezuela', region: 'South America', languages: ['es'] },
+  { code: 'EC', name: 'Ecuador', region: 'South America', languages: ['es'] },
+  { code: 'BO', name: 'Bolivia', region: 'South America', languages: ['es'] },
+  { code: 'PY', name: 'Paraguay', region: 'South America', languages: ['es'] },
+  { code: 'UY', name: 'Uruguay', region: 'South America', languages: ['es'] },
+  { code: 'CR', name: 'Costa Rica', region: 'Central America', languages: ['es'] },
+  { code: 'PA', name: 'Panama', region: 'Central America', languages: ['es'] },
+  { code: 'GT', name: 'Guatemala', region: 'Central America', languages: ['es'] },
+  { code: 'CU', name: 'Cuba', region: 'Caribbean', languages: ['es'] },
+  { code: 'DO', name: 'Dominican Republic', region: 'Caribbean', languages: ['es'] },
+  { code: 'PR', name: 'Puerto Rico', region: 'Caribbean', languages: ['es', 'en'] },
+  { code: 'AE', name: 'UAE', region: 'Middle East', languages: ['ar', 'en'] },
+  { code: 'SA', name: 'Saudi Arabia', region: 'Middle East', languages: ['ar'] },
+  { code: 'IL', name: 'Israel', region: 'Middle East', languages: ['he', 'ar'] },
+  { code: 'TR', name: 'Turkey', region: 'Middle East', languages: ['tr'] },
+  { code: 'EG', name: 'Egypt', region: 'Africa', languages: ['ar'] },
+  { code: 'MA', name: 'Morocco', region: 'Africa', languages: ['ar', 'fr'] },
+  { code: 'DZ', name: 'Algeria', region: 'Africa', languages: ['ar', 'fr'] },
+  { code: 'TN', name: 'Tunisia', region: 'Africa', languages: ['ar', 'fr'] },
+  { code: 'JO', name: 'Jordan', region: 'Middle East', languages: ['ar'] },
+  { code: 'LB', name: 'Lebanon', region: 'Middle East', languages: ['ar', 'fr'] },
+  { code: 'KW', name: 'Kuwait', region: 'Middle East', languages: ['ar'] },
+  { code: 'QA', name: 'Qatar', region: 'Middle East', languages: ['ar', 'en'] },
+  { code: 'BH', name: 'Bahrain', region: 'Middle East', languages: ['ar'] },
+  { code: 'OM', name: 'Oman', region: 'Middle East', languages: ['ar'] },
+  { code: 'ZA', name: 'South Africa', region: 'Africa', languages: ['en'] },
+  { code: 'NG', name: 'Nigeria', region: 'Africa', languages: ['en'] },
+  { code: 'KE', name: 'Kenya', region: 'Africa', languages: ['en'] },
+  { code: 'GH', name: 'Ghana', region: 'Africa', languages: ['en'] },
+  { code: 'RU', name: 'Russia', region: 'Europe', languages: ['ru'] },
+  { code: 'UA', name: 'Ukraine', region: 'Europe', languages: ['uk', 'ru'] },
+  { code: 'BY', name: 'Belarus', region: 'Europe', languages: ['ru'] },
+  { code: 'KZ', name: 'Kazakhstan', region: 'Asia', languages: ['ru'] },
+  { code: 'PK', name: 'Pakistan', region: 'Asia', languages: ['ur', 'en'] },
+  { code: 'BD', name: 'Bangladesh', region: 'Asia', languages: ['bn'] },
+  { code: 'GR', name: 'Greece', region: 'Europe', languages: ['el'] },
+  { code: 'CY', name: 'Cyprus', region: 'Europe', languages: ['el', 'tr'] },
+  { code: 'CZ', name: 'Czech Republic', region: 'Europe', languages: ['cs'] },
+  { code: 'SK', name: 'Slovakia', region: 'Europe', languages: ['cs'] },
+  { code: 'RO', name: 'Romania', region: 'Europe', languages: ['ro'] },
+  { code: 'MD', name: 'Moldova', region: 'Europe', languages: ['ro', 'ru'] },
+  { code: 'HU', name: 'Hungary', region: 'Europe', languages: ['hu'] },
+  { code: 'TW', name: 'Taiwan', region: 'Asia', languages: ['zh'] },
+  { code: 'HK', name: 'Hong Kong', region: 'Asia', languages: ['zh', 'en'] }
+];
+
+// Theme Pages Configuration
+const themePages = {
+  blog: ['Home', 'About Us', 'Blog', 'Contact Us', 'Privacy Policy', 'Author Page'],
+  business: ['Home', 'About Us', 'Services', 'Our Team', 'Testimonials', 'Contact Us', 'Privacy Policy'],
+  service: ['Home', 'About Us', 'Services', 'How It Works', 'Pricing', 'FAQ', 'Contact Us', 'Privacy Policy'],
+  ecommerce: ['Home', 'Products', 'Categories', 'About Us', 'Contact Us', 'Shipping Info', 'Return Policy', 'Privacy Policy'],
+  portfolio: ['Home', 'About Me', 'Portfolio', 'Services', 'Testimonials', 'Contact', 'Privacy Policy'],
+  landing: ['Home (Landing)', 'Features', 'Pricing', 'FAQ', 'Contact', 'Privacy Policy']
+};
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  initLanguageDropdown();
+  initCountryGrid();
+});
+
+function initLanguageDropdown() {
+  const listEl = document.getElementById('languageList');
+  listEl.innerHTML = languages.map(lang => 
+    `<div class="language-option ${lang.code === 'en' ? 'selected' : ''}" data-code="${lang.code}" onclick="selectLanguage('${lang.code}', '${lang.name}')">${lang.name}</div>`
+  ).join('');
+  document.getElementById('languageSearch').value = 'English';
+}
+
+function initCountryGrid() {
+  const gridEl = document.getElementById('countryGrid');
+  gridEl.innerHTML = countries.map(country => 
+    `<label class="country-checkbox" data-languages="${country.languages.join(',')}" data-code="${country.code}">
+      <input type="checkbox" value="${country.code}" data-name="${country.name}"> ${country.name}
+    </label>`
+  ).join('');
+  // Apply initial filter for English
+  filterCountriesByLanguage('en');
+}
+
+function toggleLanguageDropdown() {
+  document.getElementById('languageList').classList.toggle('show');
+}
+
+function filterLanguages() {
+  const search = document.getElementById('languageSearch').value.toLowerCase();
+  const options = document.querySelectorAll('.language-option');
+  options.forEach(opt => {
+    opt.style.display = opt.textContent.toLowerCase().includes(search) ? 'block' : 'none';
+  });
+  document.getElementById('languageList').classList.add('show');
+}
+
+function selectLanguage(code, name) {
+  document.getElementById('languageSearch').value = name;
+  document.getElementById('selectedLanguage').value = code;
+  document.getElementById('languageCode').value = code;
+  document.querySelectorAll('.language-option').forEach(opt => opt.classList.remove('selected'));
+  document.querySelector(`.language-option[data-code="${code}"]`).classList.add('selected');
+  document.getElementById('languageList').classList.remove('show');
+  
+  // Auto-filter countries based on selected language
+  filterCountriesByLanguage(code);
+}
+
+function filterCountriesByLanguage(langCode) {
+  const checkboxes = document.querySelectorAll('.country-checkbox');
+  const filterInfo = document.getElementById('countryFilterInfo');
+  const filterInfoText = document.getElementById('filterInfoText');
+  
+  // Get language name
+  const langObj = languages.find(l => l.code === langCode);
+  const langName = langObj ? langObj.name.split(' ')[0] : langCode.toUpperCase();
+  
+  let matchCount = 0;
+  
+  checkboxes.forEach(cb => {
+    const countryLangs = cb.dataset.languages.split(',');
+    const isMatch = countryLangs.includes(langCode);
+    
+    if (isMatch) {
+      cb.classList.add('language-match');
+      cb.style.display = 'flex';
+      matchCount++;
+    } else {
+      cb.classList.remove('language-match');
+      cb.style.display = 'none';
+    }
+  });
+  
+  // Show filter info
+  if (matchCount > 0) {
+    filterInfoText.textContent = `Showing ${matchCount} countries where ${langName} is spoken`;
+    filterInfo.classList.add('show');
+  } else {
+    filterInfoText.textContent = `No countries found for ${langName}. Showing all countries.`;
+    filterInfo.classList.add('show');
+    // Show all if no matches
+    checkboxes.forEach(cb => {
+      cb.style.display = 'flex';
+      cb.classList.remove('language-match');
+    });
+  }
+  
+  // Clear search input
+  document.getElementById('countrySearch').value = '';
+}
+
+function clearLanguageFilter() {
+  const checkboxes = document.querySelectorAll('.country-checkbox');
+  checkboxes.forEach(cb => {
+    cb.style.display = 'flex';
+    cb.classList.remove('language-match');
+  });
+  document.getElementById('countryFilterInfo').classList.remove('show');
+  document.getElementById('countrySearch').value = '';
+}
+
+function filterCountries() {
+  const search = document.getElementById('countrySearch').value.toLowerCase();
+  const checkboxes = document.querySelectorAll('.country-checkbox');
+  const filterInfo = document.getElementById('countryFilterInfo');
+  
+  if (search) {
+    // When searching, show all matching countries regardless of language filter
+    filterInfo.classList.remove('show');
+    checkboxes.forEach(cb => {
+      const countryName = cb.textContent.toLowerCase();
+      cb.style.display = countryName.includes(search) ? 'flex' : 'none';
+    });
+  } else {
+    // When search is cleared, reapply language filter
+    const currentLang = document.getElementById('selectedLanguage').value;
+    filterCountriesByLanguage(currentLang);
+  }
+}
+
+function selectTheme(theme) {
+  document.querySelectorAll('.theme-card').forEach(card => card.classList.remove('selected'));
+  document.querySelector(`.theme-card[data-theme="${theme}"]`).classList.add('selected');
+  document.getElementById('selectedTheme').value = theme;
+}
+
+function toggleSocialMedia() {
+  const toggle = document.getElementById('socialToggle');
+  const section = document.getElementById('socialMediaSection');
+  toggle.classList.toggle('active');
+  section.classList.toggle('expanded');
+}
+
+function getSelectedCountries() {
+  const checked = document.querySelectorAll('#countryGrid input:checked');
+  return Array.from(checked).map(cb => ({
+    code: cb.value,
+    name: cb.dataset.name
+  }));
+}
+
+function generateCountryMetaTags(selectedCountries, langCode) {
+  if (selectedCountries.length === 0) return '';
+  
+  let metaTags = '\n\nCOUNTRY-BASED SEO META TAGS:\n';
+  metaTags += 'Include the following geo-targeting meta tags in the <head> section:\n';
+  metaTags += `- <html lang="${langCode}">\n`;
+  
+  if (selectedCountries.length === 1) {
+    const country = selectedCountries[0];
+    metaTags += `- <meta name="geo.region" content="${country.code}">\n`;
+    metaTags += `- <meta name="geo.placename" content="${country.name}">\n`;
+    metaTags += `- <link rel="alternate" hreflang="${langCode}-${country.code.toLowerCase()}" href="[canonical-url]">\n`;
+  } else {
+    metaTags += '- Add hreflang tags for each target country:\n';
+    selectedCountries.forEach(country => {
+      metaTags += `  • <link rel="alternate" hreflang="${langCode}-${country.code.toLowerCase()}" href="[canonical-url]">\n`;
+    });
+    metaTags += `- <link rel="alternate" hreflang="x-default" href="[canonical-url]">\n`;
+  }
+  
+  metaTags += '\nFor multi-country targeting:\n';
+  metaTags += '- Use international-friendly content\n';
+  metaTags += '- Include currency/measurement variations where relevant\n';
+  metaTags += '- Use location-neutral date formats (e.g., 15 January 2024)\n';
+  
+  return metaTags;
+}
+
+function getThemeSpecificInstructions(theme, keyword) {
+  const instructions = {
+    blog: `
+BLOG/CONTENT THEME PAGES:
+Generate content-focused pages optimized for readers interested in "${keyword}".
+- Homepage: Landing-page style with featured articles, recent posts grid
+- Blog: Category listing page with pagination
+- Author Page: Detailed author profile with article archive`,
+
+    business: `
+BUSINESS THEME PAGES:
+Generate professional business pages for a company in the "${keyword}" industry.
+- Homepage: Corporate landing with value propositions, client logos, CTA sections
+- Services: Detailed service offerings with icons and descriptions
+- Our Team: Professional team member profiles with roles and bios
+- Testimonials: Client reviews and case study highlights
+Business Category: Auto-detected from "${keyword}" - adjust content tone accordingly`,
+
+    service: `
+SERVICE THEME PAGES:
+Generate service-provider pages for "${keyword}" services.
+- Homepage: Service overview with benefits and trust signals
+- Services: Individual service pages with detailed descriptions
+- How It Works: Step-by-step process explanation
+- Pricing: Service tiers or quote request form placeholder
+- FAQ: Service-specific frequently asked questions`,
+
+    ecommerce: `
+E-COMMERCE THEME PAGES:
+Generate product-focused pages for "${keyword}" products/store.
+- Homepage: Hero banner, featured products, category highlights
+- Products: Product listing grid with filter placeholders
+- Categories: Category navigation page
+- Shipping Info: Shipping policies and delivery information
+- Return Policy: Return and refund policies`,
+
+    portfolio: `
+PORTFOLIO THEME PAGES:
+Generate personal/creative portfolio for "${keyword}" work.
+- Homepage: Hero section with name, tagline, featured work
+- About Me: Personal story, skills, achievements
+- Portfolio: Project gallery with case study format
+- Services: Offered services with pricing indicators
+- Testimonials: Client feedback and recommendations`,
+
+    landing: `
+LANDING PAGE THEME:
+Generate a high-conversion landing page for "${keyword}".
+- Homepage: Hero with CTA, features, social proof, final CTA
+- Features: Detailed feature breakdown with benefits
+- Pricing: Pricing tiers comparison table
+- FAQ: Common questions and objections addressed`
+  };
+  
+  return instructions[theme] || instructions.blog;
+}
+
 // Tab switching function
 function switchTab(tab) {
   // Update tab buttons
@@ -765,6 +1507,13 @@ function switchTab(tab) {
   }
 }
 
+// Close language dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.language-dropdown')) {
+    document.getElementById('languageList').classList.remove('show');
+  }
+});
+
 function generatePrompt() {
   const pk = document.getElementById("primaryKeyword").value || "[Primary Keyword]";
   const sn = document.getElementById("siteName").value || "[Site Name]";
@@ -773,26 +1522,137 @@ function generatePrompt() {
   const ta = document.getElementById("targetAnchor").value || "[Target Anchor]";
   const an = document.getElementById("authorName").value || "[Author Name]";
   const ab = document.getElementById("authorBio").value || "[Author Bio]";
+  
+  // New fields
+  const selectedTheme = document.getElementById("selectedTheme").value;
+  const langCode = document.getElementById("selectedLanguage").value;
+  const langName = document.getElementById("languageSearch").value;
+  const authorTitle = document.getElementById("authorTitle").value || "[Author Title]";
+  const authorExpertise = document.getElementById("authorExpertise").value || "[Area of Expertise]";
+  const authorExperience = document.getElementById("authorExperience").value || "";
+  const authorCredentials = document.getElementById("authorCredentials").value || "";
+  const blogFolderName = document.getElementById("blogFolderName").value || "blog";
+  const postsPerPage = document.getElementById("postsPerPage").value;
+  const includeCategoryPage = document.getElementById("includeCategoryPage").checked;
+  
+  // Get selected countries
+  const selectedCountries = getSelectedCountries();
+  const countryNames = selectedCountries.map(c => c.name).join(', ') || 'Global';
+  
+  // Social Media (only if toggle is active)
+  const socialEnabled = document.getElementById("socialToggle").classList.contains('active');
+  let socialString = "";
+  
+  if (socialEnabled) {
+    const sMedium = document.getElementById("socialMedium").value;
+    const sPinterest = document.getElementById("socialPinterest").value;
+    const sX = document.getElementById("socialX").value;
+    const sLinktree = document.getElementById("socialLinktree").value;
+    const sLinkedin = document.getElementById("socialLinkedin").value;
+    const sFacebook = document.getElementById("socialFacebook").value;
 
-  const sMedium = document.getElementById("socialMedium").value;
-  const sPinterest = document.getElementById("socialPinterest").value;
-  const sX = document.getElementById("socialX").value;
-  const sLinktree = document.getElementById("socialLinktree").value;
+    if (sMedium || sPinterest || sX || sLinktree || sLinkedin || sFacebook) {
+      socialString = "\n\nSOCIAL MEDIA INTEGRATION:\nInclude social media icons in the header and footer with links to:\n";
+      if (sMedium) socialString += `- Medium: ${sMedium}\n`;
+      if (sPinterest) socialString += `- Pinterest: ${sPinterest}\n`;
+      if (sX) socialString += `- X (Twitter): ${sX}\n`;
+      if (sLinktree) socialString += `- Linktree: ${sLinktree}\n`;
+      if (sLinkedin) socialString += `- LinkedIn: ${sLinkedin}\n`;
+      if (sFacebook) socialString += `- Facebook: ${sFacebook}\n`;
+    }
+  }
 
-  let socialString = "Text links to Medium, Pinterest, X, and Linktree.";
-  if (sMedium || sPinterest || sX || sLinktree) {
-    socialString = "Include the following social links:\n";
-    if (sMedium) socialString += `- Medium: ${sMedium}\n`;
-    if (sPinterest) socialString += `- Pinterest: ${sPinterest}\n`;
-    if (sX) socialString += `- X (Twitter): ${sX}\n`;
-    if (sLinktree) socialString += `- Linktree: ${sLinktree}\n`;
+  // Generate theme-specific instructions
+  const themeInstructions = getThemeSpecificInstructions(selectedTheme, pk);
+  const themePageList = themePages[selectedTheme].join('\n- ');
+  
+  // Generate country meta tags
+  const countryMetaTags = generateCountryMetaTags(selectedCountries, langCode);
+
+  // Author bio section
+  let authorBioSection = `
+AUTHOR BIO SECTION:
+Add a comprehensive author bio section at the end of every content page with:
+- Author Name: ${an}
+- Title/Role: ${authorTitle}
+- Area of Expertise: ${authorExpertise}`;
+  
+  if (authorExperience) {
+    authorBioSection += `\n- Years of Experience: ${authorExperience}+ years`;
+  }
+  if (authorCredentials) {
+    authorBioSection += `\n- Credentials: ${authorCredentials}`;
+  }
+  authorBioSection += `\n- Bio: ${ab}`;
+  authorBioSection += `\n- Include author avatar placeholder
+- Add "Written by" byline on articles
+- Include author schema markup (Person schema)`;
+
+  // Category page instructions
+  let categoryPageInstructions = "";
+  if (includeCategoryPage) {
+    categoryPageInstructions = `
+
+CATEGORY/BLOG LISTING PAGE:
+Create a dedicated page that behaves as a category listing page with:
+
+1. AUTO-FETCH BLOG SYSTEM:
+   - Create a folder named "/${blogFolderName}/" for storing blog HTML files
+   - The category page should be designed to display posts from this folder
+   - Include placeholder JavaScript that would scan the folder for HTML files
+   - Display ${postsPerPage} posts per page with pagination
+
+2. BLOG POST CARD STRUCTURE:
+   Each post card should display:
+   - Featured image thumbnail
+   - Post title (linked to full article)
+   - Short excerpt (first 150 characters)
+   - Author name and date
+   - Category tags (if applicable)
+
+3. SORTING & FILTERING:
+   - Sort by newest first (based on filename convention: YYYY-MM-DD-title.html)
+   - Include category filter buttons
+   - Add search functionality placeholder
+
+4. PAGINATION:
+   - Show ${postsPerPage} posts per page
+   - Include Previous/Next navigation
+   - Display page numbers
+
+5. MULTI-PAGE ANCHOR INSTRUCTIONS:
+   Include a comment block in the code explaining:
+   - How to add new blog posts (save HTML files to /${blogFolderName}/ folder)
+   - Filename convention: YYYY-MM-DD-post-title.html
+   - Required frontmatter/meta tags in each blog file
+   - How the auto-fetch system works
+
+6. SAMPLE BLOG TEMPLATE:
+   Create a sample blog post template file (blog-template.html) with:
+   - Proper heading structure
+   - Meta tags for SEO
+   - Author bio integration
+   - Related posts placeholder
+   - Social sharing buttons placeholder`;
   }
 
   const prompt = `
 ROLE
 You are a professional web developer and SEO specialist.
 
-Your task is to generate a fully static, production-ready HTML blog website with a landing-page style homepage using clean semantic HTML5 and minimal CSS.
+Your task is to generate a fully static, production-ready HTML website using clean semantic HTML5 and minimal CSS.
+
+LANGUAGE & LOCALIZATION
+Website Language: ${langName}
+Language Code: ${langCode}
+Target Countries: ${countryNames}
+- All content must be written in ${langName}
+- Use appropriate cultural references and terminology for the target region
+- Format dates, numbers, and currency according to regional standards
+${countryMetaTags}
+
+WEBSITE THEME: ${selectedTheme.toUpperCase()}
+${themeInstructions}
 
 SITE DATA
 Primary Keyword: ${pk}
@@ -803,78 +1663,77 @@ Target Anchor Text: ${ta}
 Author Name: ${an}
 Author Bio: ${ab}
 
+BUSINESS CATEGORY DETECTION:
+Analyze the primary keyword "${pk}" to determine the business category.
+Adjust content tone, terminology, and page structure based on detected category.
+Examples:
+- "Manga" keywords → Entertainment/Media content style
+- "Agency" or "Services" → Professional B2B tone
+- "Shop" or "Store" → E-commerce product focus
+- "Consulting" or "Law" → Professional services authority tone
+
 SITE STRUCTURE
-Create the following pages as separate HTML files:
-- Home (index.html)
-- About Us
-- Privacy Policy
-- Contact Us
-- Author Page
+Create the following pages as separate HTML files based on ${selectedTheme.toUpperCase()} theme:
+- ${themePageList}
 
 Each page must include:
-- Header with navigation
-- Main content
-- Author bio section
-- Footer
+- Header with navigation (logo + menu)
+- Main content area
+- Author bio section (on content pages)
+- Footer with copyright and links
+${socialString}
 
 DESIGN RULES
-- Clean, modern, professional blog layout
-- Landing-page style homepage
+- Clean, modern, professional layout appropriate for ${selectedTheme} theme
 - No sticky elements
 - No blue or purple colors
-- Use warm or neutral tones
-- Mobile responsive (CSS only)
-- Social icons only in header
+- Use warm or neutral tones that match the ${selectedTheme} aesthetic
+- Mobile responsive (CSS only, no JavaScript for layout)
+- Consistent design language across all pages
 
 HOMEPAGE SEO REQUIREMENTS
-- Minimum 1000 words
+- Minimum 1000 words of valuable content
 - Use "${pk}" once in H1 and once in one H2 only
 - Do not repeat exact keyword in other headings
-- Natural keyword variations in body
-- Proper heading hierarchy
-- Include title tag, meta description (155–160 chars), canonical, viewport, charset
+- Natural keyword variations in body content
+- Proper heading hierarchy (H1 → H2 → H3)
+- Include: title tag, meta description (155–160 chars), canonical, viewport, charset
+- Add Open Graph tags for social sharing
+- Include JSON-LD structured data appropriate for ${selectedTheme} theme
 
-HOMEPAGE CONTENT
-- What the topic is
-- Why it is popular
-- How new and returning readers can start
-- High-level overview of major arcs
-- Reading guide and navigation tips
-- Do NOT include anime release news
-
-INTERNAL ARTICLE PAGE
-Create one internal blog article related to the primary keyword (not exact match URL).
+INTERNAL LINKING
+Create one internal content piece related to the primary keyword (not exact match URL).
 Link it naturally from the homepage.
+Ensure proper internal link architecture between pages.
 
-LINKING
+EXTERNAL LINKING
 On the homepage, add one contextual link to:
 ${tu}
 Using anchor text:
 ${ta}
 Do not repeat this anchor elsewhere.
-
-AUTHOR BIO
-Add author bio at the end of every page with:
-Name: ${an}
-Bio: ${ab}
-${socialString}
+${authorBioSection}
+${categoryPageInstructions}
 
 FAQ + SCHEMA
-- Minimum 5 FAQs
-- HTML dropdown format
+- Minimum 5 FAQs related to "${pk}"
+- HTML dropdown/accordion format
 - Add valid FAQPage JSON-LD schema
 
 TECHNICAL FILES
 Generate:
-- robots.txt
-- sitemap.xml using canonical base
+- robots.txt with proper crawl directives
+- sitemap.xml using canonical base URL
+- .htaccess with basic optimizations (if applicable)
 
 CODE QUALITY
-- Semantic HTML5
-- Clean indentation
-- Minimal CSS
-- No external libraries
-- No placeholder text
+- Semantic HTML5 elements (header, nav, main, article, section, aside, footer)
+- Clean, readable indentation
+- Minimal, well-organized CSS
+- CSS custom properties (variables) for theming
+- No external libraries or frameworks
+- No placeholder text - generate real, valuable content
+- All content must be in ${langName}
 `;
 
   document.getElementById("result").value = prompt.trim();
@@ -1157,3 +2016,4 @@ function copyMediumToClipboard() {
 
 </body>
 </html>
+
