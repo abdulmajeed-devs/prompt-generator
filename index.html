@@ -697,25 +697,34 @@
       <input type="hidden" id="selectedTheme" value="blog">
     </div>
 
+    <!-- Color Scheme Selection -->
+    <div class="form-group">
+      <label for="colorScheme">Website Color Scheme <span class="hint">(colors used in generated website)</span></label>
+      <select id="colorScheme">
+        <option value="warm-neutral">🟠 Warm Neutral (Beige, Tan, Warm Gray)</option>
+        <option value="earth-tones">🟤 Earth Tones (Brown, Olive, Terracotta)</option>
+        <option value="dark-elegant">⚫ Dark Elegant (Charcoal, Dark Gray, Gold Accents)</option>
+        <option value="ocean-teal">🟢 Ocean Teal (Teal, Seafoam, Cool Gray)</option>
+        <option value="sunset-coral">🔴 Sunset Coral (Coral, Peach, Warm Pink)</option>
+        <option value="forest-green">🌲 Forest Green (Deep Green, Sage, Cream)</option>
+        <option value="monochrome">⬛ Monochrome (Black, White, Grays)</option>
+        <option value="rose-gold">🌸 Rose Gold (Blush Pink, Rose, Gold)</option>
+      </select>
+    </div>
+
     <div class="form-group">
       <label for="primaryKeyword">Primary Keyword <span class="hint">(determines business category)</span></label>
       <input id="primaryKeyword" placeholder="e.g. Jujutsu Kaisen manga, Digital Marketing Agency, Law Firm Services">
     </div>
 
-    <div class="row">
-      <div class="form-group">
-        <label for="siteName">Site Name</label>
-        <input id="siteName" placeholder="e.g. JJK Manga Hub">
-      </div>
-      <div class="form-group">
-        <label for="authorName">Author Name</label>
-        <input id="authorName" placeholder="e.g. Dominic">
-      </div>
+    <div class="form-group">
+      <label for="siteName">Site Name</label>
+      <input id="siteName" placeholder="e.g. JJK Manga Hub">
     </div>
 
     <div class="form-group">
-      <label for="canonicalUrl">Canonical Homepage URL</label>
-      <input id="canonicalUrl" placeholder="https://example.page.dev">
+      <label for="canonicalUrl">Canonical Homepage URL <span class="hint">(spaces auto-convert to hyphens)</span></label>
+      <input id="canonicalUrl" placeholder="https://example.page.dev" oninput="autoFormatCanonicalUrl()">
     </div>
 
     <!-- Language Selection with Search -->
@@ -758,6 +767,10 @@
       <div class="row" style="margin-bottom: 0.5rem;">
         <input id="targetUrl" placeholder="URL: https://example.com" style="border-color: #fbcfe8;">
         <input id="targetAnchor" placeholder="Anchor: Jujutsu Kaisen manga" style="border-color: #fbcfe8;">
+      </div>
+      <div class="optional-toggle" style="margin-top: 0.5rem; margin-bottom: 0;">
+        <div class="toggle-switch" id="nofollowToggle" onclick="toggleNofollow()"></div>
+        <span style="font-size: 0.85rem; color: #9d174d;" id="nofollowLabel">DoFollow (link passes SEO value)</span>
       </div>
     </div>
 
@@ -827,10 +840,21 @@
       Each HTML file in the folder becomes a blog post automatically.
     </div>
 
-    <div class="row">
+    <div class="row-3">
       <div class="form-group">
         <label for="blogFolderName">Blog Folder Name</label>
         <input id="blogFolderName" placeholder="e.g. blog, articles, posts" value="blog">
+      </div>
+      <div class="form-group">
+        <label for="blogPostCount">Number of Blog Posts <span class="hint">(0 = no blog)</span></label>
+        <select id="blogPostCount">
+          <option value="0">0 (No blog posts)</option>
+          <option value="3">3 posts</option>
+          <option value="5" selected>5 posts</option>
+          <option value="8">8 posts</option>
+          <option value="10">10 posts</option>
+          <option value="15">15 posts</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="postsPerPage">Posts Per Page</label>
@@ -1389,6 +1413,53 @@ function selectTheme(theme) {
   document.getElementById('selectedTheme').value = theme;
 }
 
+function toggleNofollow() {
+  const toggle = document.getElementById('nofollowToggle');
+  const label = document.getElementById('nofollowLabel');
+  toggle.classList.toggle('active');
+  if (toggle.classList.contains('active')) {
+    label.textContent = 'NoFollow (link does NOT pass SEO value)';
+  } else {
+    label.textContent = 'DoFollow (link passes SEO value)';
+  }
+}
+
+function autoFormatCanonicalUrl() {
+  const input = document.getElementById('canonicalUrl');
+  const cursorPos = input.selectionStart;
+  const oldValue = input.value;
+  const newValue = oldValue.replace(/ /g, '-');
+  if (oldValue !== newValue) {
+    input.value = newValue;
+    input.setSelectionRange(cursorPos, cursorPos);
+  }
+}
+
+const randomAuthorNames = [
+  'Alex Morgan', 'Jordan Rivera', 'Taylor Chen', 'Casey Brooks', 'Riley Anderson',
+  'Morgan Hayes', 'Jamie Carter', 'Quinn Sullivan', 'Avery Mitchell', 'Dakota Reed',
+  'Cameron Blake', 'Skyler Hayes', 'Rowan Phillips', 'Finley Grant', 'Harper Ellis',
+  'Sage Thompson', 'Emerson Cole', 'Reese Parker', 'Kendall Shaw', 'Peyton Murray'
+];
+
+function getRandomAuthorName() {
+  return randomAuthorNames[Math.floor(Math.random() * randomAuthorNames.length)];
+}
+
+function getColorSchemeInstructions(scheme) {
+  const schemes = {
+    'warm-neutral': 'Use warm neutral colors: beige (#F5F0E8), tan (#D4C5A9), warm gray (#9C9488), and soft brown (#7D6E5D) as accents. Background should feel cozy and inviting.',
+    'earth-tones': 'Use earth tone colors: brown (#8B5E3C), olive (#6B7C4E), terracotta (#C75B39), and cream (#F2E8D5). Create a natural, grounded aesthetic.',
+    'dark-elegant': 'Use dark elegant colors: charcoal (#2D2D2D), dark gray (#404040), off-white text (#F5F5F5), and gold accents (#C9A96E). Create a premium, sophisticated look.',
+    'ocean-teal': 'Use ocean teal colors: teal (#2A9D8F), seafoam (#76C7B7), cool gray (#8E9AAF), and white (#FFFFFF). Create a fresh, calming aesthetic.',
+    'sunset-coral': 'Use sunset coral colors: coral (#FF6B6B), peach (#FFAB91), warm pink (#F48FB1), and light cream (#FFF8F0). Create a warm, vibrant look.',
+    'forest-green': 'Use forest green colors: deep green (#2D5A3D), sage (#87A878), cream (#F5F1E3), and dark brown (#3E2723). Create a natural, eco-friendly feel.',
+    'monochrome': 'Use monochrome colors: black (#1A1A1A), white (#FFFFFF), and various grays (#4A4A4A, #8A8A8A, #D0D0D0). Create a clean, timeless design.',
+    'rose-gold': 'Use rose gold colors: blush pink (#F4C2C2), rose (#C97B84), gold (#D4A373), and soft white (#FDF6F0). Create an elegant, feminine aesthetic.'
+  };
+  return schemes[scheme] || schemes['warm-neutral'];
+}
+
 function toggleSocialMedia() {
   const toggle = document.getElementById('socialToggle');
   const section = document.getElementById('socialMediaSection');
@@ -1520,7 +1591,7 @@ function generatePrompt() {
   const cu = document.getElementById("canonicalUrl").value || "[Canonical URL]";
   const tu = document.getElementById("targetUrl").value || "[Target URL]";
   const ta = document.getElementById("targetAnchor").value || "[Target Anchor]";
-  const an = document.getElementById("authorName").value || "[Author Name]";
+  const an = getRandomAuthorName();
   const ab = document.getElementById("authorBio").value || "[Author Bio]";
   
   // New fields
@@ -1534,6 +1605,9 @@ function generatePrompt() {
   const blogFolderName = document.getElementById("blogFolderName").value || "blog";
   const postsPerPage = document.getElementById("postsPerPage").value;
   const includeCategoryPage = document.getElementById("includeCategoryPage").checked;
+  const blogPostCount = parseInt(document.getElementById("blogPostCount").value);
+  const colorScheme = document.getElementById("colorScheme").value;
+  const isNofollow = document.getElementById("nofollowToggle").classList.contains('active');
   
   // Get selected countries
   const selectedCountries = getSelectedCountries();
@@ -1590,8 +1664,16 @@ Add a comprehensive author bio section at the end of every content page with:
 
   // Category page instructions
   let categoryPageInstructions = "";
-  if (includeCategoryPage) {
+  if (blogPostCount === 0) {
     categoryPageInstructions = `
+
+BLOG SECTION:
+Do NOT include any blog posts, blog listing page, or blog-related sections in the website.
+The website should have no blog or article content.`;
+  } else if (includeCategoryPage) {
+    categoryPageInstructions = `
+
+BLOG POST COUNT: Generate exactly ${blogPostCount} sample blog posts related to "${pk}".
 
 CATEGORY/BLOG LISTING PAGE:
 Create a dedicated page that behaves as a category listing page with:
@@ -1686,8 +1768,7 @@ ${socialString}
 DESIGN RULES
 - Clean, modern, professional layout appropriate for ${selectedTheme} theme
 - No sticky elements
-- No blue or purple colors
-- Use warm or neutral tones that match the ${selectedTheme} aesthetic
+- COLOR SCHEME: ${getColorSchemeInstructions(colorScheme)}
 - Mobile responsive (CSS only, no JavaScript for layout)
 - Consistent design language across all pages
 
@@ -1711,6 +1792,7 @@ On the homepage, add one contextual link to:
 ${tu}
 Using anchor text:
 ${ta}
+${isNofollow ? 'IMPORTANT: Add rel="nofollow" attribute to this external link. The link must NOT pass SEO value.' : 'This link should be a standard dofollow link (no rel="nofollow" attribute). The link passes SEO value.'}
 Do not repeat this anchor elsewhere.
 ${authorBioSection}
 ${categoryPageInstructions}
