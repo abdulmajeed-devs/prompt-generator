@@ -1430,9 +1430,8 @@ function autoFormatCanonicalUrl() {
   const oldValue = input.value;
   const newValue = oldValue.replace(/ /g, '-');
   if (oldValue !== newValue) {
-    const diff = oldValue.length - newValue.length;
     input.value = newValue;
-    input.setSelectionRange(cursorPos - diff, cursorPos - diff);
+    input.setSelectionRange(cursorPos, cursorPos);
   }
 }
 
