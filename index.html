@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prompt Generator Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div style="max-width: 1400px; margin: 0 auto;">
+    <h1>Prompt Generator Tool</h1>
+    <p>Create detailed prompts for websites and social media images.</p>
+  </div>
+</header>
+
+<!-- Tab Navigation -->
+<div style="background: var(--card-bg); border-bottom: 1px solid var(--border-color);">
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('seo')">
+      <span>📝</span> SEO Website Prompt
+    </button>
+    <button class="tab-btn image-tab" onclick="switchTab('image')">
+      <span>🖼️</span> Image Generation Prompt
+    </button>
+    <button class="tab-btn medium-tab" onclick="switchTab('medium')">
+      <span>✍️</span> Medium Article Prompt
+    </button>
+  </nav>
+</div>
+
+<!-- SEO Prompt Tab Content -->
+<main class="tab-content active" id="seo-tab">
+  <!-- Input Section -->
+  <section class="card">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">📝</span> Website Details</h2>
+    
+    <!-- Website Theme Selection -->
+    <div class="form-group">
+      <label>Website Theme <span class="hint">(select website type)</span></label>
+      <div class="theme-grid">
+        <div class="theme-card selected" data-theme="blog" onclick="selectTheme('blog')">
+          <div class="theme-icon">📝</div>
+          <div class="theme-name">Blog/Content</div>
+          <div class="theme-desc">Articles, news, tutorials</div>
+        </div>
+        <div class="theme-card" data-theme="business" onclick="selectTheme('business')">
+          <div class="theme-icon">🏢</div>
+          <div class="theme-name">Business</div>
+          <div class="theme-desc">Corporate, company sites</div>
+        </div>
+        <div class="theme-card" data-theme="service" onclick="selectTheme('service')">
+          <div class="theme-icon">🛠️</div>
+          <div class="theme-name">Service</div>
+          <div class="theme-desc">Service providers, agencies</div>
+        </div>
+        <div class="theme-card" data-theme="ecommerce" onclick="selectTheme('ecommerce')">
+          <div class="theme-icon">🛒</div>
+          <div class="theme-name">E-Commerce</div>
+          <div class="theme-desc">Product showcase, shop</div>
+        </div>
+        <div class="theme-card" data-theme="portfolio" onclick="selectTheme('portfolio')">
+          <div class="theme-icon">💼</div>
+          <div class="theme-name">Portfolio</div>
+          <div class="theme-desc">Personal, creative work</div>
+        </div>
+        <div class="theme-card" data-theme="landing" onclick="selectTheme('landing')">
+          <div class="theme-icon">🚀</div>
+          <div class="theme-name">Landing Page</div>
+          <div class="theme-desc">Single product, SaaS</div>
+        </div>
+      </div>
+      <input type="hidden" id="selectedTheme" value="blog">
+    </div>
+
+    <div class="form-group">
+      <label for="primaryKeyword">Primary Keyword <span class="hint">(determines business category)</span></label>
+      <input id="primaryKeyword" placeholder="e.g. Jujutsu Kaisen manga, Digital Marketing Agency, Law Firm Services">
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="siteName">Site Name</label>
+        <input id="siteName" placeholder="e.g. JJK Manga Hub">
+      </div>
+      <div class="form-group">
+        <label for="authorName">Author Name</label>
+        <input id="authorName" placeholder="e.g. Dominic">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="canonicalUrl">Canonical Homepage URL</label>
+      <input id="canonicalUrl" placeholder="https://example.page.dev">
+    </div>
+
+    <!-- Language Selection with Search -->
+    <div class="section-divider">🌍 Language & Region Settings</div>
+    
+    <div class="row">
+      <div class="form-group">
+        <label for="languageSearch">Website Language</label>
+        <div class="language-dropdown">
+          <div class="language-search-container">
+            <input type="text" id="languageSearch" class="language-search" placeholder="Search language..." onclick="toggleLanguageDropdown()" oninput="filterLanguages()">
+            <input type="hidden" id="selectedLanguage" value="en">
+          </div>
+          <div class="language-dropdown-list" id="languageList">
+            <!-- Languages populated by JS -->
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="languageCode">Language Code</label>
+        <input id="languageCode" value="en" readonly placeholder="Auto-filled">
+      </div>
+    </div>
+
+    <!-- Multi-Country Targeting -->
+    <div class="form-group">
+      <label>Target Countries <span class="hint">(select multiple for geo-targeting)</span></label>
+      <input type="text" id="countrySearch" class="country-search" placeholder="Search countries..." oninput="filterCountries()">
+      <div class="country-filter-info" id="countryFilterInfo">
+        <span id="filterInfoText">Showing countries where the selected language is spoken</span>
+        <span class="clear-filter" onclick="clearLanguageFilter()">Show all</span>
+      </div>
+      <div class="country-grid" id="countryGrid">
+        <!-- Countries populated by JS -->
+      </div>
+    </div>
+
+    <div class="form-group" style="background: #fdf2f8; padding: 1rem; border-radius: 8px; border: 1px solid #fbcfe8;">
+      <label style="color: #9d174d;">Target External Link Info (Backlink)</label>
+      
+      <!-- No Follow Toggle -->
+      <div class="optional-toggle" style="margin-bottom: 0.75rem;">
+        <div class="toggle-switch" id="noFollowToggle" onclick="toggleNoFollow()"></div>
+        <span style="color: #9d174d; font-weight: 500;">Add NoFollow Attribute</span>
+      </div>
+      
+      <div class="row" style="margin-bottom: 0.5rem;">
+        <input id="targetUrl" placeholder="URL: https://example.com" style="border-color: #fbcfe8;">
+        <input id="targetAnchor" placeholder="Anchor: Jujutsu Kaisen manga" style="border-color: #fbcfe8;">
+      </div>
+    </div>
+
+    <!-- Author Bio Section -->
+    <div class="section-divider">👤 Author Information</div>
+    
+    <div class="form-group">
+      <label for="authorBio">Author Bio</label>
+      <textarea id="authorBio" placeholder="Short professional bio related to the niche..."></textarea>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="authorTitle">Author Title/Role</label>
+        <input id="authorTitle" placeholder="e.g. Senior Content Writer, CEO">
+      </div>
+      <div class="form-group">
+        <label for="authorExpertise">Area of Expertise</label>
+        <input id="authorExpertise" placeholder="e.g. Manga Reviews, Digital Marketing">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="authorExperience">Years of Experience</label>
+        <input id="authorExperience" type="number" placeholder="e.g. 5">
+      </div>
+      <div class="form-group">
+        <label for="authorCredentials">Credentials/Certifications</label>
+        <input id="authorCredentials" placeholder="e.g. Google Analytics Certified">
+      </div>
+    </div>
+
+    <!-- Optional Social Media Section -->
+    <div class="section-divider">📱 Social Media (Optional)</div>
+    
+    <div class="optional-toggle">
+      <div class="toggle-switch" id="socialToggle" onclick="toggleSocialMedia()"></div>
+      <span>Include social media links in website</span>
+    </div>
+
+    <div class="collapsible-section" id="socialMediaSection">
+      <div class="form-group">
+        <label>Social Media Links</label>
+        <div class="row" style="margin-bottom: 0.5rem;">
+          <input id="socialMedium" placeholder="Medium URL">
+          <input id="socialPinterest" placeholder="Pinterest URL">
+        </div>
+        <div class="row" style="margin-bottom: 0.5rem;">
+          <input id="socialX" placeholder="X (Twitter) URL">
+          <input id="socialLinktree" placeholder="Linktree URL">
+        </div>
+        <div class="row">
+          <input id="socialLinkedin" placeholder="LinkedIn URL">
+          <input id="socialFacebook" placeholder="Facebook URL">
+        </div>
+      </div>
+    </div>
+
+    <!-- Blog/Category Page Settings -->
+    <div class="section-divider">📁 Blog & Category Page Settings</div>
+
+    <div class="info-box">
+      <strong>📌 Multi-Page Anchor System:</strong>
+      Create a folder (e.g., <code>/blog/</code>) where you can add HTML files. 
+      The system will auto-fetch and display new blog posts on the category page.
+      Each HTML file in the folder becomes a blog post automatically.
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="blogFolderName">Blog Folder Name</label>
+        <input id="blogFolderName" placeholder="e.g. blog, articles, posts" value="blog">
+      </div>
+      <div class="form-group">
+        <label for="postsPerPage">Posts Per Page</label>
+        <select id="postsPerPage">
+          <option value="6">6 posts</option>
+          <option value="9" selected>9 posts</option>
+          <option value="12">12 posts</option>
+          <option value="15">15 posts</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="includeCategoryPage" checked style="width: auto; margin-right: 0.5rem;">
+        Include Category/Blog Listing Page
+      </label>
+    </div>
+
+    <!-- Map Embedding Section -->
+    <div class="section-divider">🗺️ Map Embedding (Optional)</div>
+
+    <div class="form-group">
+      <label for="mapPosition">Map Placement Location</label>
+      <select id="mapPosition">
+        <option value="none">No Map - Skip map embedding</option>
+        <option value="body">Body Section - Main content area</option>
+        <option value="footer">Footer Section - Bottom of page</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="mapEmbedCode">Map Embed Code <span class="hint">(paste iframe or embed code)</span></label>
+      <textarea id="mapEmbedCode" placeholder="Example: <iframe src=&quot;https://www.google.com/maps/embed?pb=...&quot; width=&quot;600&quot; height=&quot;450&quot; style=&quot;border:0;&quot; allowfullscreen=&quot;&quot; loading=&quot;lazy&quot;></iframe>" style="min-height: 120px; font-family: 'Consolas', monospace; font-size: 0.85rem;"></textarea>
+    </div>
+
+    <button class="primary-btn" onclick="generatePrompt()">✨ Generate Prompt</button>
+  </section>
+
+  <!-- Output Section -->
+  <section class="card output-container">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">📋</span> Generated Output</h2>
+    <div class="output-wrapper">
+      <textarea id="result" readonly placeholder="Your generated prompt will appear here..."></textarea>
+      <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">Copy to Clipboard</button>
+    </div>
+    <div class="note">
+      <strong>Pro Tip:</strong> Paste this directly into ChatGPT, Claude, or DeepSeek to generate a complete website structure.
+    </div>
+  </section>
+</main>
+
+<!-- Image Prompt Tab Content -->
+<main class="tab-content" id="image-tab">
+  <!-- Image Input Section -->
+  <section class="card">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">🖼️</span> Image Generation Details</h2>
+    
+    <div class="highlight-box">
+      <label for="imgBrandDomain">Brand Domain <span class="hint">(displayed on image)</span></label>
+      <input id="imgBrandDomain" placeholder="e.g. jujutsukaisenmangas.me">
+    </div>
+
+    <div class="highlight-box">
+      <label for="imgHeadline">Headline Text <span class="hint">(main caption for the image)</span></label>
+      <textarea id="imgHeadline" placeholder="Enter your main headline text here. The last key word/phrase will be automatically highlighted in red." style="min-height: 80px;"></textarea>
+    </div>
+
+    <div class="section-divider">📐 Canvas Settings</div>
+
+    <div class="row-3">
+      <div class="form-group">
+        <label for="imgAspectRatio">Aspect Ratio</label>
+        <select id="imgAspectRatio">
+          <option value="1:1 square">1:1 Square</option>
+          <option value="16:9 landscape">16:9 Landscape</option>
+          <option value="9:16 portrait">9:16 Portrait (Story)</option>
+          <option value="4:5 portrait">4:5 Portrait</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgResolution">Resolution</label>
+        <select id="imgResolution">
+          <option value="1080 × 1080 px">1080 × 1080 px</option>
+          <option value="1920 × 1080 px">1920 × 1080 px</option>
+          <option value="1080 × 1920 px">1080 × 1920 px</option>
+          <option value="1080 × 1350 px">1080 × 1350 px</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgStyle">Output Style</label>
+        <select id="imgStyle">
+          <option value="clean, modern, professional social media post">Modern Professional</option>
+          <option value="bold, eye-catching social media post">Bold Eye-catching</option>
+          <option value="minimal, elegant social media post">Minimal Elegant</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-divider">🎨 Design Options</div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="imgLogoPosition">Logo Position</label>
+        <select id="imgLogoPosition">
+          <option value="TOP-LEFT">Top Left</option>
+          <option value="TOP-RIGHT">Top Right</option>
+          <option value="TOP-CENTER">Top Center</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgDomainPosition">Domain Text Position</label>
+        <select id="imgDomainPosition">
+          <option value="TOP-RIGHT">Top Right</option>
+          <option value="TOP-LEFT">Top Left</option>
+          <option value="BOTTOM-RIGHT">Bottom Right</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="imgOverlayOpacity">Text Overlay Opacity</label>
+        <select id="imgOverlayOpacity">
+          <option value="75–85%">75–85% (Standard)</option>
+          <option value="60–70%">60–70% (Light)</option>
+          <option value="85–95%">85–95% (Dark)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgOverlayHeight">Overlay Height</label>
+        <select id="imgOverlayHeight">
+          <option value="35%">35% (Standard)</option>
+          <option value="25%">25% (Compact)</option>
+          <option value="45%">45% (Extended)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-divider">🎯 Accent & Colors</div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="imgAccentColor">Highlight Accent Color</label>
+        <select id="imgAccentColor">
+          <option value="RED (#D62828 or #FF2B2B)">Red (Default)</option>
+          <option value="ORANGE (#F97316)">Orange</option>
+          <option value="BLUE (#2563EB)">Blue</option>
+          <option value="PURPLE (#7C3AED)">Purple</option>
+          <option value="PINK (#EC4899)">Pink</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgFontStyle">Font Style</label>
+        <select id="imgFontStyle">
+          <option value="modern geometric sans-serif (Poppins / Montserrat style)">Poppins/Montserrat</option>
+          <option value="clean sans-serif (Inter / Roboto style)">Inter/Roboto</option>
+          <option value="bold display sans-serif (Bebas / Oswald style)">Bebas/Oswald</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-divider">🌐 Background Options</div>
+
+    <div class="form-group">
+      <label for="imgMapOverlay">World Map Overlay</label>
+      <select id="imgMapOverlay">
+        <option value="yes">Yes - Add subtle world map silhouette</option>
+        <option value="no">No - Clean background only</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="imgMapOpacity">Map Opacity <span class="hint">(if enabled)</span></label>
+        <select id="imgMapOpacity">
+          <option value="8–12%">8–12% (Subtle)</option>
+          <option value="5–8%">5–8% (Very Light)</option>
+          <option value="12–18%">12–18% (More Visible)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="imgSubjectPosition">Subject Position</label>
+        <select id="imgSubjectPosition">
+          <option value="slightly ABOVE the vertical center">Above Center</option>
+          <option value="centered vertically">Center</option>
+          <option value="in the upper third">Upper Third</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-divider">📱 Social Media Icons</div>
+
+    <div class="form-group">
+      <label for="imgSocialIcons">Social Media Icons to Display</label>
+      <div class="row" style="margin-top: 0.5rem;">
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 400;">
+          <input type="checkbox" id="iconFacebook" checked style="width: auto;"> Facebook
+        </label>
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 400;">
+          <input type="checkbox" id="iconInstagram" checked style="width: auto;"> Instagram
+        </label>
+      </div>
+      <div class="row" style="margin-top: 0.5rem;">
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 400;">
+          <input type="checkbox" id="iconLinkedIn" checked style="width: auto;"> LinkedIn
+        </label>
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 400;">
+          <input type="checkbox" id="iconX" checked style="width: auto;"> X (Twitter)
+        </label>
+      </div>
+    </div>
+
+    <button class="primary-btn red-btn" onclick="generateImagePrompt()">🖼️ Generate Image Prompt</button>
+  </section>
+
+  <!-- Image Output Section -->
+  <section class="card output-container">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">📋</span> Generated Image Prompt</h2>
+    <div class="output-wrapper">
+      <textarea id="imageResult" readonly placeholder="Your generated image prompt will appear here..."></textarea>
+      <button class="copy-btn" id="copyImageBtn" onclick="copyImageToClipboard()">Copy to Clipboard</button>
+    </div>
+    <div class="note red-note">
+      <strong>Usage:</strong> Upload your background image and logo in the AI interface, then paste this prompt. The AI will recreate the design structure with your branding.
+    </div>
+  </section>
+</main>
+
+<!-- Medium Prompt Tab Content -->
+<main class="tab-content" id="medium-tab">
+  <!-- Medium Input Section -->
+  <section class="card">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">✍️</span> Medium Article Details</h2>
+    
+    <div class="highlight-box-green">
+      <label for="mediumTitle">Main Post Title <span class="hint">(H1 headline)</span></label>
+      <input id="mediumTitle" placeholder="e.g. Understanding the Future of Remote Work in 2026">
+    </div>
+
+    <div class="highlight-box-green">
+      <label for="mediumKeyword">Main Keyword <span class="hint">(used only once, naturally)</span></label>
+      <input id="mediumKeyword" placeholder="e.g. remote work trends">
+    </div>
+
+    <div class="section-divider">📚 Reference Information</div>
+
+    <div class="form-group">
+      <label for="mediumReference">Reference Information <span class="hint">(source material the article will be based on)</span></label>
+      <textarea id="mediumReference" placeholder="Paste your reference information, research notes, key points, statistics, or source material here. The AI will expand on this information while maintaining accuracy and not inventing facts." style="min-height: 200px;"></textarea>
+    </div>
+
+    <div class="section-divider">⚙️ Content Preferences</div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="mediumTone">Writing Tone</label>
+        <select id="mediumTone">
+          <option value="conversational and informative">Conversational & Informative</option>
+          <option value="professional and authoritative">Professional & Authoritative</option>
+          <option value="friendly and approachable">Friendly & Approachable</option>
+          <option value="educational and explanatory">Educational & Explanatory</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="mediumLength">Target Length</label>
+        <select id="mediumLength">
+          <option value="medium (800-1200 words)">Medium (800-1200 words)</option>
+          <option value="short (500-800 words)">Short (500-800 words)</option>
+          <option value="long (1200-1800 words)">Long (1200-1800 words)</option>
+          <option value="comprehensive (1800+ words)">Comprehensive (1800+ words)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="mediumAudience">Target Audience</label>
+        <select id="mediumAudience">
+          <option value="general readers interested in the topic">General Readers</option>
+          <option value="beginners learning about this subject">Beginners</option>
+          <option value="intermediate practitioners seeking deeper knowledge">Intermediate</option>
+          <option value="professionals and experts in the field">Professionals/Experts</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="mediumFocus">Content Focus</label>
+        <select id="mediumFocus">
+          <option value="balanced explanation with practical insights">Balanced & Practical</option>
+          <option value="conceptual understanding and theory">Conceptual/Theory</option>
+          <option value="practical how-to guidance">How-To/Practical</option>
+          <option value="analysis and opinion with evidence">Analysis & Opinion</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="primary-btn green-btn" onclick="generateMediumPrompt()">✍️ Generate Medium Prompt</button>
+  </section>
+
+  <!-- Medium Output Section -->
+  <section class="card output-container">
+    <h2><span style="font-size: 1.2em; margin-right: 8px;">📋</span> Generated Medium Prompt</h2>
+    <div class="output-wrapper">
+      <textarea id="mediumResult" readonly placeholder="Your generated Medium article prompt will appear here..."></textarea>
+      <button class="copy-btn" id="copyMediumBtn" onclick="copyMediumToClipboard()">Copy to Clipboard</button>
+    </div>
+    <div class="note green-note">
+      <strong>Helpful Content:</strong> This prompt follows Google's Helpful Content Framework — writing for humans first, with clear explanations and no keyword stuffing.
+    </div>
+  </section>
+</main>
+
+<footer>
+  Prompt Generator Tool | v3.0 - Advanced SEO & Multi-Region Support
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
